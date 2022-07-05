@@ -1,11 +1,12 @@
 package eater.turbofacts
 
-import injection.Context
+import eater.injection.InjectionContext.Companion.inject
+
 
 sealed class Criterion {
     abstract val factKey: String
 
-    protected val facts by lazy { Context.inject<TurboFactsOfTheWorld>() }
+    protected val facts by lazy { inject<TurboFactsOfTheWorld>() }
     abstract fun checkRule(): Boolean
 }
 sealed class StringCriteria : Criterion() {

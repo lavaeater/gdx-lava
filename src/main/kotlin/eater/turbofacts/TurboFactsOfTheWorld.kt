@@ -1,6 +1,23 @@
 package eater.turbofacts
 
-import ecs.systems.enemy.multiKey
+import eater.injection.InjectionContext.Companion.inject
+
+
+fun multiKey(vararg key: String): String {
+    return key.joinToString(".")
+}
+
+fun stateBooleanFact(toSet: Boolean, vararg key: String): Boolean {
+    return factsOfTheWorld().setBooleanFact(toSet, *key).value
+}
+
+fun addToIntStat(toAdd: Int, vararg key: String): Int {
+    return factsOfTheWorld().addToInt(toAdd, *key)
+}
+
+fun factsOfTheWorld(): TurboFactsOfTheWorld {
+    return inject()
+}
 
 class TurboFactsOfTheWorld(private val onFactUpdated: (key: String) -> Unit = {}) {
     val facts = mutableMapOf<String, Factoid>()

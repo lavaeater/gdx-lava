@@ -1,7 +1,5 @@
 package eater.turbofacts
 
-import ecs.systems.enemy.multiKey
-
 class TurboRule(val name: String, val criteria: List<Criterion>) {
     fun checkRule(): Boolean {
         return criteria.all { it.checkRule() }
