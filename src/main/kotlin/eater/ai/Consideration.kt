@@ -7,8 +7,5 @@ open class Consideration(val name: String, val scoreFunction: (entity: Entity) -
         return scoreFunction(entity)
     }
 
-//    object MyHealthConsideration: Consideration("My Health", { entity ->
-//        val attackables = entity.attackables()
-//        attackables.health / attackables.maxHealth
-//    })
+//    object MyHealthConsideration
 }

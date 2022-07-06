@@ -14,6 +14,7 @@ abstract class AiAction(val name: String) {
      * Can be overridden to affect the value of the score with some interpolations,
      * considerations to be taken if there are more than one factor in the scoring,
      * etc etc
+     * To take time into consideration, use the timepiece func in gdx-ai
      */
     open fun score(entity: Entity): Double {
         return considerations.map { it.normalizedScore(entity) }.average()
