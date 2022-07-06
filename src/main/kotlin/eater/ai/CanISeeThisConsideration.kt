@@ -40,7 +40,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
             agentProps.speed = 0f
         }
         val agentPosition = TransformComponent.get(entity).position
-        val inrangeEntities = engine.getEntitiesFor(entitiesToLookForFamily)
+        val inRange = engine.getEntitiesFor(entitiesToLookForFamily)
             .filter { TransformComponent.get(it).position.dst(agentPosition) < agentProps.viewDistance }
             .filter {
                 canISeeYouFromHere(
@@ -50,9 +50,9 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                     agentProps.fieldOfView
                 )
             }
-        debug { "LookForAndStore found ${inrangeEntities.size} entities in range and in the field of view" }
+        debug { "LookForAndStore found ${inRange.size} entities in range and in the field of view" }
         var haveIseenSomething = false
-        for (potential in inrangeEntities) {
+        for (potential in inRange) {
             val entityPosition = TransformComponent.get(potential).position
             var lowestFraction = 1f
             var closestFixture: Fixture? = null
@@ -73,7 +73,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                 RayCast.CONTINUE
             }
 
-            if (closestFixture != null && closestFixture!!.isEntity() && inrangeEntities.contains(closestFixture!!.getEntity())) {
+            if (closestFixture != null && closestFixture!!.isEntity() && inRange.contains(closestFixture!!.getEntity())) {
                 debug { "LookForAndStore - entity at $entityPosition can be seen " }
                 haveIseenSomething = true
                 break

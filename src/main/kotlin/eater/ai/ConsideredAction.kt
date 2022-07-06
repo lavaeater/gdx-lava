@@ -7,7 +7,7 @@ class ConsideredAction(
     private val abortFunction: (entity: Entity) -> Unit,
                        private val actFunction: (entity: Entity, deltaTime:Float) -> Unit,
                        vararg consideration: Consideration
-): eater.ai.AiAction(name) {
+): AiAction(name) {
     init {
         considerations.addAll(consideration)
     }

@@ -10,6 +10,10 @@ abstract class AiAction(val name: String) {
      * like the Amble task - a task that will be performed unless some other task
      * gets a higher average score - very likely since most of my considerations would be
      * simply yes or no values
+     *
+     * Can be overridden to affect the value of the score with some interpolations,
+     * considerations to be taken if there are more than one factor in the scoring,
+     * etc etc
      */
     open fun score(entity: Entity): Double {
         return considerations.map { it.normalizedScore(entity) }.average()
