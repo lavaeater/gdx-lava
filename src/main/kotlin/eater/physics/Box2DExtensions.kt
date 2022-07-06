@@ -1,4 +1,4 @@
-package physics
+package eater.physics
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
