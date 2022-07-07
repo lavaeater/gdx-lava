@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.Queue
 import ktx.ashley.mapperFor
+import ktx.math.random
 import ktx.math.vec2
 import kotlin.reflect.KMutableProperty
 
@@ -16,12 +17,20 @@ data class AgentBaseProperties(
     val fieldOfView: Float = 90f,
     val viewDistance: Float = 30f,
     val speed: Float = 5f,
-    val rushSpeed: Float = 10f
-)
+    val rushSpeed: Float = 10f,
+    val attackSpeed: Float = 1f,
+    val meleeDamageRange: ClosedFloatingPointRange<Float> = (5f..15f)
+) {
+    companion object {
+        val reusableBaseProperties = AgentBaseProperties()
+    }
+}
 
 class AgentProperties(val baseProperties: AgentBaseProperties) : Component, Pool.Poolable {
-    constructor() : this(AgentBaseProperties())
+    constructor() : this(AgentBaseProperties.reusableBaseProperties)
 
+    var meleeDamageRange = baseProperties.meleeDamageRange
+    var attackSpeed = baseProperties.attackSpeed
     var meleeDistance = baseProperties.meleeDistance
     var rotationSpeed = baseProperties.rotationSpeed //degrees per second
     var rushSpeed = baseProperties.rushSpeed
