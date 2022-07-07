@@ -3,6 +3,7 @@ package eater.ai
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.physics.box2d.Fixture
 import eater.core.engine
 import eater.core.world
@@ -23,8 +24,9 @@ import kotlin.reflect.full.starProjectedType
 class CanISeeThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
     private val lookFor: KClass<ToLookFor>,
     private val toStoreIn: KClass<ToStoreIn>,
-    private val stop: Boolean = false
-) : Consideration("Can I See ") {
+    private val stop: Boolean = false,
+    scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
+) : Consideration("Can I See ", scoreRange = scoreRange) {
     private val storeMapper = ComponentMapper.getFor(toStoreIn.java)
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
@@ -81,7 +83,7 @@ class CanISeeThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
 //                break
             }
         }
-        return if (haveIseenSomething) 0.95f else 0f
+        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, if (haveIseenSomething) 0.95f else 0f)
     }
 }
 

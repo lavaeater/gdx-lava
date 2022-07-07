@@ -2,6 +2,7 @@ package eater.ai
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.MathUtils
 import eater.core.engine
 import eater.ecs.components.Memory
 import eater.ecs.components.TransformComponent
@@ -12,7 +13,8 @@ import kotlin.reflect.full.starProjectedType
 class AmICloseToThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
     private val lookFor: KClass<ToLookFor>,
     private val toStoreIn: KClass<ToStoreIn>,
-    private val distance: Float
+    private val distance: Float,
+    scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) : Consideration("Am I Close to This?") {
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
@@ -29,6 +31,6 @@ class AmICloseToThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
             }
             memory.closeEntities[lookFor.starProjectedType]!!.addAll(closeBums)
         }
-        return if (closeBums.any()) 1.0f else 0.0f
+        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, if (closeBums.any()) 1.0f else 0.0f)
     }
 }
