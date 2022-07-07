@@ -30,7 +30,7 @@ fun angleToDeg(from: Vector2, aimVector: Vector2, to: Vector2) : Float {
 
 class CanISeeThisConsideration<ToLookFor : Component>(
     componentClass: KClass<ToLookFor>,
-    private val stop: Boolean = true
+    private val stop: Boolean = false
 ) : Consideration("Can I See ") {
     private val entitiesToLookForFamily = allOf(componentClass, TransformComponent::class).get()
     private val engine by lazy { engine() }

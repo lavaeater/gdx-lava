@@ -4,14 +4,15 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import eater.core.engine
+import kotlin.reflect.KClass
 
 class GenericActionWithState<T: Component>(name: String,
                                            private val scoreFunction: (entity: Entity) -> Double,
                                            private val abortFunction: (entity: Entity) -> Unit = {},
                                            private val actFunction: (entity: Entity, state: T, deltaTime:Float) -> Unit,
-                                           private val componentClass: Class<T>): AiAction(name) {
+                                           private val componentClass: KClass<T>): AiAction(name) {
     lateinit var state: T
-    val mapper = ComponentMapper.getFor(componentClass)
+    val mapper = ComponentMapper.getFor(componentClass.java)
 
     override fun score(entity: Entity): Double {
         return scoreFunction(entity)
@@ -19,13 +20,13 @@ class GenericActionWithState<T: Component>(name: String,
 
     private fun setState(entity: Entity) {
         if(!mapper.has(entity)) {
-            entity.add(engine().createComponent(componentClass))
+            entity.add(engine().createComponent(componentClass.java))
         }
-        state = entity.getComponent(componentClass)
+        state = entity.getComponent(componentClass.java)
     }
 
     private fun removeState(entity: Entity) {
-        entity.remove(componentClass)
+        entity.remove(componentClass.java)
     }
 
     override fun abort(entity: Entity) {
