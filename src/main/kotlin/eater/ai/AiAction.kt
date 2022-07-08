@@ -1,9 +1,10 @@
 package eater.ai
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.MathUtils
 
-abstract class AiAction(val name: String) {
-    val considerations = mutableListOf<eater.ai.Consideration>()
+abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRange<Float> = 0f..1f) {
+    val considerations = mutableListOf<Consideration>()
 
     /***
      * This is open so we can simply implement a static score for something
@@ -16,8 +17,8 @@ abstract class AiAction(val name: String) {
      * etc etc
      * To take time into consideration, use the timepiece func in gdx-ai
      */
-    open fun score(entity: Entity): Double {
-        return considerations.map { it.normalizedScore(entity) }.average()
+    open fun score(entity: Entity): Float {
+        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, considerations.map { it.normalizedScore(entity) }.average().toFloat())
     }
 
     /**

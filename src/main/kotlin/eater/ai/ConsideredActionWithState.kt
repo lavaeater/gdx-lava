@@ -10,8 +10,9 @@ class ConsideredActionWithState<T : Component>(
     name: String, private val abortFunction: (entity: Entity) -> Unit,
     private val actFunction: (entity: Entity, state: T, deltaTime: Float) -> Unit,
     private val componentClass: KClass<T>,
+    scoreRange: ClosedFloatingPointRange<Float> = 0f..1f,
     vararg consideration: Consideration
-) : AiAction(name) {
+) : AiAction(name, scoreRange) {
     init {
         considerations.addAll(consideration)
     }

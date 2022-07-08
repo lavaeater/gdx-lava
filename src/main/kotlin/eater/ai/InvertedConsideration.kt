@@ -8,6 +8,13 @@ class InvertedConsideration(
     scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) : Consideration(
     name,
-    { entity -> MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, 1f / consideration.scoreFunction(entity)) },
-    scoreRange = scoreRange
-)
+    scoreRange,
+    { entity ->
+        MathUtils.map(
+            0f,
+            1f,
+            scoreRange.start,
+            scoreRange.endInclusive,
+            1f / consideration.scoreFunction(entity)
+        )
+    })

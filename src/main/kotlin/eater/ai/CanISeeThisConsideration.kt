@@ -10,9 +10,11 @@ import eater.core.world
 import eater.ecs.components.AgentProperties
 import eater.ecs.components.Memory
 import eater.ecs.components.TransformComponent
+import eater.physics.createComponent
 import eater.physics.getEntity
 import eater.physics.isEntity
 import ktx.ashley.allOf
+import ktx.ashley.mapperFor
 import ktx.box2d.RayCast
 import ktx.box2d.rayCast
 import ktx.log.debug
@@ -21,18 +23,17 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.starProjectedType
 
 
-class CanISeeThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
+class CanISeeThisConsideration<ToLookFor : Component>(
     private val lookFor: KClass<ToLookFor>,
-    private val toStoreIn: KClass<ToStoreIn>,
     private val stop: Boolean = false,
     scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) : Consideration("Can I See ", scoreRange = scoreRange) {
-    private val storeMapper = ComponentMapper.getFor(toStoreIn.java)
+    private val storeMapper = mapperFor<Memory>()
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
     override fun normalizedScore(entity: Entity): Float {
         val agentProps = AgentProperties.get(entity)
-        val memory = ensureMemory(entity, lookFor, toStoreIn)
+        val memory = ensureMemory(entity)
         if (!memory.seenEntities.containsKey(lookFor.starProjectedType)) {
             memory.seenEntities[lookFor.starProjectedType] = mutableListOf()
         } else {
@@ -87,14 +88,12 @@ class CanISeeThisConsideration<ToLookFor : Component, ToStoreIn : Memory>(
     }
 }
 
-fun <ToLookFor : Component, ToStoreIn : Memory> ensureMemory(
-    entity: Entity,
-    lookFor: KClass<ToLookFor>,
-    toStoreIn: KClass<ToStoreIn>
-): ToStoreIn {
-    val mapper = ComponentMapper.getFor(toStoreIn.java)
+fun ensureMemory(
+    entity: Entity
+): Memory {
+    val mapper = mapperFor<Memory>()
     val memory = if (!mapper.has(entity)) {
-        val component = engine().createComponent(toStoreIn.java)
+        val component = engine().createComponent<Memory>()
         entity.add(component)
         component
     } else {
