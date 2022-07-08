@@ -25,9 +25,8 @@ import kotlin.reflect.full.starProjectedType
 
 class CanISeeThisConsideration<ToLookFor : Component>(
     private val lookFor: KClass<ToLookFor>,
-    private val stop: Boolean = false,
-    scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
-) : Consideration("Can I See ", scoreRange = scoreRange) {
+    private val stop: Boolean = false
+) : Consideration("Can I See ") {
     private val storeMapper = mapperFor<Memory>()
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
@@ -84,7 +83,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
 //                break
             }
         }
-        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, if (haveIseenSomething) 0.95f else 0f)
+        return if (haveIseenSomething) 0.95f else 0f
     }
 }
 

@@ -12,9 +12,8 @@ import kotlin.reflect.full.starProjectedType
 
 class AmICloseToThisConsideration<ToLookFor : Component>(
     private val lookFor: KClass<ToLookFor>,
-    private val distance: Float,
-    scoreRange: ClosedFloatingPointRange<Float> = 0f..1f
-) : Consideration("Am I Close to This?", scoreRange) {
+    private val distance: Float
+) : Consideration("Am I Close to This?") {
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
     override fun normalizedScore(entity: Entity): Float {
@@ -30,6 +29,6 @@ class AmICloseToThisConsideration<ToLookFor : Component>(
             }
             memory.closeEntities[lookFor.starProjectedType]!!.addAll(closeBums)
         }
-        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, if (closeBums.any()) 1.0f else 0.0f)
+        return if (closeBums.any()) 1.0f else 0.0f
     }
 }
