@@ -1,10 +1,12 @@
 package eater.ai
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 
 abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRange<Float> = 0f..1f) {
     val considerations = mutableListOf<Consideration>()
+    lateinit var interpolation: Interpolation
     var score: Float = 0f
     protected set
 
@@ -20,7 +22,10 @@ abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRan
      * To take time into consideration, use the timepiece func in gdx-ai
      */
     open fun updateScore(entity: Entity): Float {
-        score = MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, considerations.map { it.normalizedScore(entity) }.average().toFloat())
+        if(!::interpolation.isInitialized) {
+            interpolation = Interpolation.PowOut(considerations.count())
+        }
+        score = MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, interpolation.apply(considerations.map { it.normalizedScore(entity) }.average().toFloat()))
         return score
     }
 
