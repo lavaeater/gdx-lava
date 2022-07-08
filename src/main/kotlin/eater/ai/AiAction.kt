@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.MathUtils
 
 abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRange<Float> = 0f..1f) {
     val considerations = mutableListOf<Consideration>()
+    var score: Float = 0f
+    protected set
 
     /***
      * This is open so we can simply implement a static score for something
@@ -17,8 +19,9 @@ abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRan
      * etc etc
      * To take time into consideration, use the timepiece func in gdx-ai
      */
-    open fun score(entity: Entity): Float {
-        return MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, considerations.map { it.normalizedScore(entity) }.average().toFloat())
+    open fun updateScore(entity: Entity): Float {
+        score = MathUtils.map(0f, 1f, scoreRange.start, scoreRange.endInclusive, considerations.map { it.normalizedScore(entity) }.average().toFloat())
+        return score
     }
 
     /**

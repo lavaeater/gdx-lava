@@ -18,7 +18,8 @@ class GenericAction(
         actFunction(entity, deltaTime)
     }
 
-    override fun score(entity: Entity): Float {
-        return MathUtils.map(0f,1f, scoreRange.start, scoreRange.endInclusive, scoreFunction(entity))
+    override fun updateScore(entity: Entity): Float {
+        score = MathUtils.map(0f,1f, scoreRange.start, scoreRange.endInclusive, scoreFunction(entity))
+        return score
     }
 }

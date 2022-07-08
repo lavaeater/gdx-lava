@@ -14,8 +14,9 @@ class GenericActionWithState<T: Component>(name: String,
     lateinit var state: T
     val mapper = ComponentMapper.getFor(componentClass.java)
 
-    override fun score(entity: Entity): Float {
-        return scoreFunction(entity)
+    override fun updateScore(entity: Entity): Float {
+        score = scoreFunction(entity)
+        return score
     }
 
     private fun setState(entity: Entity) {

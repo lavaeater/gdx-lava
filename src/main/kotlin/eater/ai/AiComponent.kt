@@ -10,7 +10,7 @@ class AiComponent : Component, Pool.Poolable {
     private var currentAction: AiAction? = null
 
     fun updateAction(entity: Entity) {
-        actions.sortByDescending { it.score(entity) }
+        actions.sortByDescending { it.updateScore(entity) }
     }
 
     fun topAction(entity: Entity): AiAction? {
