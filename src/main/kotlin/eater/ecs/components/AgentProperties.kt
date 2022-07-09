@@ -18,7 +18,7 @@ data class AgentBaseProperties(
     val viewDistance: Float = 30f,
     val speed: Float = 5f,
     val rushSpeed: Float = 10f,
-    val attackSpeed: Float = 1f,
+    val attackSpeed: Float = 0.5f,
     val meleeDamageRange: ClosedFloatingPointRange<Float> = (5f..15f)
 ) {
     companion object {

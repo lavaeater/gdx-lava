@@ -24,8 +24,7 @@ import kotlin.reflect.full.starProjectedType
 
 
 class CanISeeThisConsideration<ToLookFor : Component>(
-    private val lookFor: KClass<ToLookFor>,
-    private val stop: Boolean = false
+    private val lookFor: KClass<ToLookFor>
 ) : Consideration("Can I See ") {
     private val storeMapper = mapperFor<Memory>()
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
@@ -39,9 +38,6 @@ class CanISeeThisConsideration<ToLookFor : Component>(
             memory.seenEntities[lookFor.starProjectedType]!!.clear()
         }
         val seenEntities = memory.seenEntities[lookFor.starProjectedType]!!
-        if (stop) {
-            agentProps.speed = 0f
-        }
         val agentPosition = TransformComponent.get(entity).position
         val inRange = engine.getEntitiesFor(entitiesToLookForFamily)
             .filter { TransformComponent.get(it).position.dst(agentPosition) < agentProps.viewDistance }
@@ -53,7 +49,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                     agentProps.fieldOfView
                 )
             }
-        debug { "LookForAndStore found ${inRange.size} entities in range and in the field of view" }
+        debug { "CanISeeThisConsideration found ${inRange.size} entities in range and in the field of view" }
         var haveIseenSomething = false
         for (potential in inRange) {
             val entityPosition = TransformComponent.get(potential).position
@@ -77,13 +73,12 @@ class CanISeeThisConsideration<ToLookFor : Component>(
             }
 
             if (closestFixture != null && closestFixture!!.isEntity() && inRange.contains(closestFixture!!.getEntity())) {
-                debug { "LookForAndStore - entity at $entityPosition can be seen " }
+                debug { "CanISeeThisConsideration - entity at $entityPosition can be seen " }
                 seenEntities.add(closestFixture!!.getEntity())
                 haveIseenSomething = true
-//                break
             }
         }
-        return if (haveIseenSomething) 0.95f else 0f
+        return if (haveIseenSomething) 1f else 0f
     }
 }
 
