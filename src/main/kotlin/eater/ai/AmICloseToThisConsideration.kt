@@ -23,11 +23,9 @@ class AmICloseToThisConsideration<ToLookFor : Component>(
         if (closeBums.any()) {
             val memory = ensureMemory(entity)
             if (!memory.closeEntities.containsKey(lookFor.starProjectedType)) {
-                memory.closeEntities[lookFor.starProjectedType] = mutableListOf()
-            } else {
-                memory.closeEntities[lookFor.starProjectedType]!!.clear()
+                memory.closeEntities[lookFor.starProjectedType] = mutableMapOf()
             }
-            memory.closeEntities[lookFor.starProjectedType]!!.addAll(closeBums)
+            closeBums.map { memory.closeEntities[lookFor.starProjectedType]!![it] = memory.memoryLifeSpan }
         }
         return if (closeBums.any()) 1.0f else 0.0f
     }

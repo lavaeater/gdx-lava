@@ -7,8 +7,9 @@ import ktx.ashley.mapperFor
 import kotlin.reflect.KType
 
 class Memory : Component, Pool.Poolable {
-    val seenEntities = mutableMapOf<KType, MutableList<Entity>>()
-    val closeEntities = mutableMapOf<KType, MutableList<Entity>>()
+    val seenEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()
+    val closeEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()
+    val memoryLifeSpan = 5f
     override fun reset() {
         seenEntities.clear()
         closeEntities.clear()
