@@ -77,7 +77,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                 haveIseenSomething = true
             }
         }
-        return if (haveIseenSomething) 1f else 0f
+        return if (haveIseenSomething ) 1f else 0f
     }
 }
 
