@@ -11,14 +11,14 @@ class UpdateMemorySystem: IteratingSystem(allOf(Memory::class).get()) {
         for (map in memory.closeEntities.values) {
             for((key, value) in map) {
                 map[key] = value - deltaTime
-                if(map[key]!! < 0f)
+                if(map[key]!! < 0f || !engine.entities.contains(key))
                     map.remove(key)
             }
         }
         for (map in memory.seenEntities.values) {
             for((key, value) in map) {
                 map[key] = value - deltaTime
-                if(map[key]!! < 0f)
+                if(map[key]!! < 0f || !engine.entities.contains(key))
                    map.remove(key)
             }
         }
