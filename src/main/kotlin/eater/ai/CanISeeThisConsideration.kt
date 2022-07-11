@@ -33,6 +33,7 @@ class CanISeeThisConsideration<ToLookFor : Component>(
         val agentProps = AgentProperties.get(entity)
         val memory = ensureMemory(entity)
         if (!memory.seenEntities.containsKey(lookFor.starProjectedType)) {
+            debug { "Create memory for ${lookFor.starProjectedType}" }
             memory.seenEntities[lookFor.starProjectedType] = mutableMapOf()
         }
         val seenEntities = memory.seenEntities[lookFor.starProjectedType]!!
@@ -48,7 +49,6 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                 )
             }
         debug { "CanISeeThisConsideration found ${inRange.size} entities in range and in the field of view" }
-        var haveIseenSomething = false
         for (potential in inRange) {
             val entityPosition = TransformComponent.get(potential).position
             var lowestFraction = 1f
@@ -71,13 +71,12 @@ class CanISeeThisConsideration<ToLookFor : Component>(
             }
 
             if (closestFixture != null && closestFixture!!.isEntity() && inRange.contains(closestFixture!!.getEntity())) {
-                debug { "CanISeeThisConsideration - entity at $entityPosition can be seen " }
+                debug { "CanISeeThisConsideration - entity at $entityPosition can be seen" }
                 val e = closestFixture!!.getEntity()
                 seenEntities[e] = memory.memoryLifeSpan
-                haveIseenSomething = true
             }
         }
-        return if (haveIseenSomething ) 1f else 0f
+        return if (seenEntities.any() ) 1f else 0f
     }
 }
 

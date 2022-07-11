@@ -8,16 +8,21 @@ import ktx.ashley.mapperFor
 class AiComponent : Component, Pool.Poolable {
     val actions = mutableListOf<AiAction>()
     private var currentAction: AiAction? = null
+    private var canSwitchAction = true
 
     fun updateAction(entity: Entity) {
+        canSwitchAction = false
         actions.sortByDescending { it.updateScore(entity) }
+        canSwitchAction = true
     }
 
     fun topAction(entity: Entity): AiAction? {
-        val potentialAction = actions.first()
-        if (currentAction != potentialAction) {
-            currentAction?.abort(entity)
-            currentAction = potentialAction
+        if(canSwitchAction) {
+            val potentialAction = actions.first()
+            if (currentAction != potentialAction) {
+                currentAction?.abort(entity)
+                currentAction = potentialAction
+            }
         }
         return currentAction
     }
