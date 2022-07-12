@@ -4,23 +4,40 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import eater.ecs.components.Memory
 import ktx.ashley.allOf
+import kotlin.reflect.KType
 
-class UpdateMemorySystem: IteratingSystem(allOf(Memory::class).get()) {
+class UpdateMemorySystem : IteratingSystem(allOf(Memory::class).get()) {
+
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val memory = Memory.get(entity)
-        for (map in memory.closeEntities.values) {
-            for((key, value) in map) {
+        val toRemove = mutableMapOf<KType, MutableList<Entity>>()
+        for ((t, map) in memory.closeEntities) {
+            for ((key, value) in map) {
                 map[key] = value - deltaTime
-                if(map[key]!! < 0f || !engine.entities.contains(key))
-                    map.remove(key)
+                if (map[key]!! < 0f || !engine.entities.contains(key)) {
+                    if (!toRemove.containsKey(t))
+                        toRemove[t] = mutableListOf()
+                    toRemove[t]!!.add(key)
+                }
             }
         }
-        for (map in memory.seenEntities.values) {
-            for((key, value) in map) {
+        for ((t, e) in toRemove) {
+            e.forEach { memory.closeEntities[t]?.remove(it) }
+        }
+        toRemove.clear()
+        for ((t, map) in memory.seenEntities) {
+            for ((key, value) in map) {
                 map[key] = value - deltaTime
-                if(map[key]!! < 0f || !engine.entities.contains(key))
-                   map.remove(key)
+                if (map[key]!! < 0f || !engine.entities.contains(key)) {
+                    if (!toRemove.containsKey(t))
+                        toRemove[t] = mutableListOf()
+                    toRemove[t]!!.add(key)
+                }
             }
         }
+        for ((t, e) in toRemove) {
+            e.forEach { memory.seenEntities[t]?.remove(it) }
+        }
+        toRemove.clear()
     }
 }
