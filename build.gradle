@@ -2,6 +2,7 @@
 eclipse.project.name = appName + '-lava'
 
 dependencies {
+	api "com.github.crykn.guacamole:gdx:$guacamoleVersion" // is exposed because of NestableFrameBuffer
 	api "com.badlogicgames.ashley:ashley:$ashleyVersion"
 	api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 	api "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -27,5 +28,4 @@ dependencies {
 	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
-	implementation 'com.github.lavaeater:libgdx-screenmanager:c9e1acb870'
 }

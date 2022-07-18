@@ -1,6 +1,6 @@
 package eater.core
 
-import de.eskalon.commons.screen.ManagedScreen
+import eater.transitions.screen.ManagedScreen
 
 open class LavaScreen(): ManagedScreen() {
     override fun dispose() {

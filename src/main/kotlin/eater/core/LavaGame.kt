@@ -1,7 +1,8 @@
 package eater.core
 
-import de.eskalon.commons.core.ManagedGame
-import de.eskalon.commons.screen.transition.ScreenTransition
+import eater.transitions.game.ManagedGame
+import eater.transitions.screen.transition.ScreenTransition
+
 
 open class LavaGame : ManagedGame<LavaScreen, ScreenTransition>() {
 }
