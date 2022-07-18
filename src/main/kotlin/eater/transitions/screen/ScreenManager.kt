@@ -307,7 +307,7 @@ class ScreenManager<S : ManagedScreen?, T : ScreenTransition?> : Disposable {
                 if (transition != null) {
                     transition!!.reset()
                 } else { // a screen was pushed without transition
-                    lastScreen!!.hide()
+                    lastScreen?.hide()
                     currentProcessors = com.badlogic.gdx.utils.Array(
                         currScreen!!.inputProcessors
                     )
