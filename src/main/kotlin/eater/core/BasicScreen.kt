@@ -1,6 +1,7 @@
 package eater.core
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
@@ -10,8 +11,9 @@ import eater.injection.InjectionContext.Companion.inject
 import eater.input.CommandMap
 import eater.input.KeyPress
 import ktx.app.KtxInputAdapter
+import ktx.app.KtxScreen
 
-abstract class BasicScreen(val lavaGame: LavaGame, val commandMap: CommandMap) : LavaScreen(), KtxInputAdapter {
+abstract class BasicScreen(val mainGame: MainGame, val commandMap: CommandMap) : KtxScreen, KtxInputAdapter {
 
     open val camera: OrthographicCamera by lazy { inject() }
     open val viewport: Viewport by lazy { inject<ExtendViewport>() }
@@ -25,7 +27,7 @@ abstract class BasicScreen(val lavaGame: LavaGame, val commandMap: CommandMap) :
         Gdx.input.inputProcessor = null
     }
 
-    //val clearColor by lazy { Color(0f, 0.2f, .4f, 1f) }
+    val clearColor by lazy { Color(0f, 0.2f, .4f, 1f) }
     override fun render(delta: Float) {
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
