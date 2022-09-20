@@ -13,7 +13,7 @@ import eater.input.KeyPress
 import ktx.app.KtxInputAdapter
 import ktx.app.KtxScreen
 
-abstract class BasicScreen(val mainGame: MainGame, val commandMap: CommandMap) : KtxScreen, KtxInputAdapter {
+abstract class BasicScreen(val mainGame: MainGame, open val commandMap: CommandMap) : KtxScreen, KtxInputAdapter {
 
     open val camera: OrthographicCamera by lazy { inject() }
     open val viewport: Viewport by lazy { inject<ExtendViewport>() }

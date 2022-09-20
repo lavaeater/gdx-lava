@@ -31,5 +31,7 @@ class CameraUpdateSystem(
         camera.position.lerp(
             vec3(cameraPosition, 0f), 0.5f
         )
+
+
     }
 }
