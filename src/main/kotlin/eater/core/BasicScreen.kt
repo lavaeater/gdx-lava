@@ -21,6 +21,11 @@ abstract class BasicScreen(val mainGame: MainGame, open val commandMap: CommandM
 
     override fun show() {
         Gdx.input.inputProcessor = this
+        viewport.update(Gdx.graphics.width, Gdx.graphics.height)
+    }
+
+    override fun resize(width: Int, height: Int) {
+        viewport.update(width, height)
     }
 
     override fun hide() {
@@ -33,7 +38,6 @@ abstract class BasicScreen(val mainGame: MainGame, open val commandMap: CommandM
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         camera.update(true)
         batch.projectionMatrix = camera.combined
-
     }
 
     override fun keyDown(keycode: Int): Boolean {

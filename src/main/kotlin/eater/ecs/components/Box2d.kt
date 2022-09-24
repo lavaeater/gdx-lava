@@ -10,9 +10,10 @@ class Box2d : Component, Poolable {
     private var _body: Body? = null
     var body: Body
         get() = _body!!
-    set(value) {
-        _body = value
-    }
+        set(value) {
+            _body = value
+        }
+
     override fun reset() {
         _body = null
     }
@@ -22,6 +23,7 @@ class Box2d : Component, Poolable {
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
+
         fun get(entity: Entity): Box2d {
             return mapper.get(entity)
         }

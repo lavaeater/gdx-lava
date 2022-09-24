@@ -4,6 +4,7 @@ package eater.ecs.systems
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import eater.ecs.components.Box2d
 import eater.ecs.components.CameraFollow
@@ -29,7 +30,7 @@ class CameraUpdateSystem(
         cameraPosition.set(body.position)
 
         camera.position.lerp(
-            vec3(cameraPosition, 0f), 0.5f
+            vec3(cameraPosition, 0f), 0.75f
         )
 
 
