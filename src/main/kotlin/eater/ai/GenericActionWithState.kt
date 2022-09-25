@@ -7,7 +7,7 @@ import eater.core.engine
 import kotlin.reflect.KClass
 
 class GenericActionWithState<T: Component>(name: String,
-                                           private val scoreFunction: (entity: Entity, state: T) -> Float,
+                                           private val scoreFunction: (entity: Entity) -> Float,
                                            private val abortFunction: (entity: Entity) -> Unit = {},
                                            private val actFunction: (entity: Entity, state: T, deltaTime:Float) -> Unit,
                                            private val componentClass: KClass<T>): AiAction(name) {
@@ -15,8 +15,7 @@ class GenericActionWithState<T: Component>(name: String,
     val mapper = ComponentMapper.getFor(componentClass.java)
 
     override fun updateScore(entity: Entity): Float {
-        setState(entity)
-        score = scoreFunction(entity, state)
+        score = scoreFunction(entity)
         return score
     }
 
