@@ -14,13 +14,15 @@ import ktx.math.vec3
 
 class CameraUpdateSystem(
     private val camera: OrthographicCamera,
-    private val viewport: ExtendViewport
+    private val viewport: ExtendViewport,
+    private val alpha: Float
 ) :
     IteratingSystem(
         allOf(
             CameraFollow::class,
             Box2d::class
-        ).get()) {
+        ).get()
+    ) {
 
     private val cameraPosition = vec2()
 
@@ -30,7 +32,7 @@ class CameraUpdateSystem(
         cameraPosition.set(body.position)
 
         camera.position.lerp(
-            vec3(cameraPosition, 0f), 0.75f
+            vec3(cameraPosition, 0f), alpha
         )
 
 
