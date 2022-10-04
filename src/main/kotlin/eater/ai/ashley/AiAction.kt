@@ -1,4 +1,4 @@
-package eater.ai
+package eater.ai.ashley
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Interpolation

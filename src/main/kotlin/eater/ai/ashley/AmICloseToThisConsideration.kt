@@ -1,10 +1,8 @@
-package eater.ai
+package eater.ai.ashley
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.MathUtils
 import eater.core.engine
-import eater.ecs.components.Memory
 import eater.ecs.components.TransformComponent
 import ktx.ashley.allOf
 import kotlin.reflect.KClass

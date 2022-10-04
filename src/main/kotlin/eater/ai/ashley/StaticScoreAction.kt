@@ -1,7 +1,6 @@
-package eater.ai
+package eater.ai.ashley
 
 import com.badlogic.ashley.core.Entity
-import eater.ai.AiAction
 
 abstract class StaticScoreAction(name: String, score: Float) : AiAction(name) {
     init {

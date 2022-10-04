@@ -2,7 +2,7 @@ package eater.ecs.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
-import eater.ai.AiComponent
+import eater.ai.ashley.AiComponent
 import ktx.ashley.allOf
 import ktx.ashley.mapperFor
 

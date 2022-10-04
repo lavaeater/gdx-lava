@@ -1,9 +1,7 @@
-package eater.ai
+package eater.ai.ashley
 
 import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.physics.box2d.Fixture
 import eater.core.engine
 import eater.core.world

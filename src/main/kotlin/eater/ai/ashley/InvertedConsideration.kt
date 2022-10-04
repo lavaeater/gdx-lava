@@ -1,6 +1,4 @@
-package eater.ai
-
-import com.badlogic.gdx.math.MathUtils
+package eater.ai.ashley
 
 class InvertedConsideration(
     name: String,

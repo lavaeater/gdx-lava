@@ -1,4 +1,4 @@
-package eater.ai
+package eater.ai.ashley
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
