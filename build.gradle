@@ -26,4 +26,5 @@ dependencies {
 	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
+	implementation "io.github.quillraven.fleks:Fleks:2.0"
 }
