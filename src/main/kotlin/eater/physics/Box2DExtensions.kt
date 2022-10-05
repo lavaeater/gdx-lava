@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import eater.core.engine
-import eater.ecs.components.AgentProperties
-import eater.ecs.components.Box2d
+import eater.ecs.ashley.components.AgentProperties
+import eater.ecs.ashley.components.Box2d
 import ktx.ashley.has
 import ktx.ashley.mapperFor
 import ktx.math.times

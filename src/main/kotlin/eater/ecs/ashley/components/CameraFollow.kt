@@ -1,4 +1,4 @@
-package eater.ecs.components
+package eater.ecs.ashley.components
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
@@ -15,7 +15,7 @@ class CameraFollow: Component, Pool.Poolable {
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
-        fun get(entity: Entity):CameraFollow {
+        fun get(entity: Entity): CameraFollow {
             return mapper.get(entity)
         }
     }

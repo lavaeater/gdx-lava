@@ -1,11 +1,11 @@
-package eater.ecs.systems
+package eater.ecs.ashley.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import eater.physics.addComponent
 import ktx.ashley.allOf
 import ktx.ashley.remove
-import eater.ecs.components.Remove
+import eater.ecs.ashley.components.Remove
 
 class RemoveAfterSystem: IteratingSystem(allOf(RemoveAfter::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {

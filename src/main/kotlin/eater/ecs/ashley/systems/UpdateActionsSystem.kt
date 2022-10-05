@@ -1,4 +1,4 @@
-package eater.ecs.systems
+package eater.ecs.ashley.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IntervalIteratingSystem

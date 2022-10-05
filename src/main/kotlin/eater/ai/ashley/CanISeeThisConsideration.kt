@@ -5,9 +5,9 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.physics.box2d.Fixture
 import eater.core.engine
 import eater.core.world
-import eater.ecs.components.AgentProperties
-import eater.ecs.components.Memory
-import eater.ecs.components.TransformComponent
+import eater.ecs.ashley.components.AgentProperties
+import eater.ecs.ashley.components.Memory
+import eater.ecs.ashley.components.TransformComponent
 import eater.physics.createComponent
 import eater.physics.getEntity
 import eater.physics.isEntity

@@ -1,4 +1,4 @@
-package eater.ecs.components
+package eater.ecs.ashley.components
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity

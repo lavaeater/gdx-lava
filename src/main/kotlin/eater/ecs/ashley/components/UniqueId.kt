@@ -1,4 +1,4 @@
-package eater.ecs.components
+package eater.ecs.ashley.components
 
 object UniqueId {
     private var id = 0

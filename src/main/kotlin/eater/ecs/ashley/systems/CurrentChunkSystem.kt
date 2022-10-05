@@ -1,10 +1,10 @@
-package eater.ecs.systems
+package eater.ecs.ashley.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.physics.box2d.Body
-import eater.ecs.components.Box2d
-import eater.ecs.components.CameraFollow
+import eater.ecs.ashley.components.Box2d
+import eater.ecs.ashley.components.CameraFollow
 import eater.world.ITileManager
 import eater.world.tileX
 import eater.world.tileY
@@ -14,7 +14,8 @@ fun Entity.body(): Body {
     return Box2d.get(this).body
 }
 
-class CurrentChunkSystem(private val seaManager: ITileManager, private val tileSize: Float): IteratingSystem(allOf(CameraFollow::class).get()) {
+class CurrentChunkSystem(private val seaManager: ITileManager, private val tileSize: Float): IteratingSystem(allOf(
+    CameraFollow::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val body = entity.body()
         val tileX = body.tileX(tileSize)
