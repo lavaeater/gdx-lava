@@ -14,9 +14,15 @@ abstract class AiActionWithState<T: Component>(name: String, val componentClass:
     }
     private fun setState(entity: Entity) {
         if(!mapper.has(entity)) {
-            entity.add(engine().createComponent(componentClass.java))
+            val state = engine().createComponent(componentClass.java)
+            entity.add(state)
+            initState(state)
         }
         state = entity.getComponent(componentClass.java)
+    }
+
+    open fun initState(state: T) {
+        //Default is of course no-op
     }
 
     abstract fun scoreFunction(entity: Entity):Float
