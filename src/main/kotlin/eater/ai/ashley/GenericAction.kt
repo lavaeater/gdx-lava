@@ -3,7 +3,6 @@ package eater.ai.ashley
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.MathUtils
 
-
 class GenericAction(
     name: String,
     private val scoreFunction: (entity: Entity) -> Float,
