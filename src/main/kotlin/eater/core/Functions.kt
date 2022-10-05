@@ -21,7 +21,3 @@ fun world(): World {
 fun engine() : Engine {
     return inject()
 }
-
-fun fleks(): com.github.quillraven.fleks.World {
-    return inject()
-}
