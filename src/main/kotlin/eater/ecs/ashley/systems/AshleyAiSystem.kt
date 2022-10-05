@@ -7,9 +7,8 @@ import ktx.ashley.allOf
 import ktx.ashley.mapperFor
 
 class AshleyAiSystem : IteratingSystem(allOf(AiComponent::class).get()) {
-    private val utilMapper = mapperFor<AiComponent>()
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        val ai = utilMapper.get(entity)
+        val ai = AiComponent.get(entity)
         ai.topAction(entity)?.act(entity, deltaTime)
     }
 }

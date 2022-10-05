@@ -33,6 +33,9 @@ class CameraFollowSystem(
             vec3(cameraPosition, 0f), alpha
         )
 
+        camera.update(true)
+
+
 
     }
 }
