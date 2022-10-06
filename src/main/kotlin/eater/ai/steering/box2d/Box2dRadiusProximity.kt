@@ -15,6 +15,7 @@
  */
 package eater.ai.steering.box2d
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
@@ -28,7 +29,9 @@ import com.badlogic.gdx.physics.box2d.World
 class Box2dRadiusProximity(owner: Steerable<Vector2>, world: World, detectionRadius: Float) :
     Box2dSquareAABBProximity(owner, world, detectionRadius) {
     override fun getSteerable(fixture: Fixture): Steerable<Vector2> {
-        return fixture.body.userData as Steerable<Vector2>
+        val entity = fixture.body.userData as Entity
+
+        return Box2dSteering.get(entity)
     }
 
     override fun accept(steerable: Steerable<Vector2>): Boolean {

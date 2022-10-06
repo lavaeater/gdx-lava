@@ -15,37 +15,43 @@
  */
 package eater.ai.steering.box2d
 
-import com.badlogic.gdx.Gdx
+import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.ai.steer.SteeringAcceleration
 import com.badlogic.gdx.ai.steer.SteeringBehavior
 import com.badlogic.gdx.ai.utils.Location
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool
+import ktx.ashley.mapperFor
 
 /** A steering entity for box2d physics engine.
  *
  * @author davebaol
  */
-class Box2dSteeringEntity(
-    var region: TextureRegion,
-    var body: Body,
+class Box2dSteering(
+    b: Body,
     var isIndependentFacing: Boolean,
     var _boundingRadius: Float
-) : Steerable<Vector2> {
-    var _tagged = false
-    var _maxLinearSpeed = 0f
-    var _maxLinearAcceleration = 0f
-    var _maxAngularSpeed = 0f
-    var _maxAngularAcceleration = 0f
+) : Steerable<Vector2>, Component, Pool.Poolable {
+    private var _tagged = false
+    private var _maxLinearSpeed = 0f
+    private var _maxLinearAcceleration = 0f
+    private var _maxAngularSpeed = 0f
+    private var _maxAngularAcceleration = 0f
     var steeringBehavior: SteeringBehavior<Vector2>? = null
-
+    private var _body: Body? = b
+    var body: Body 
+        get() = _body!!
+        set(value) {
+            _body = value
+        }
+    
     init {
-        body.userData = this
+        _body = body
     }
+
 
     override fun getPosition(): Vector2 {
         return body.position
@@ -249,5 +255,17 @@ class Box2dSteeringEntity(
 
     companion object {
         private val steeringOutput = SteeringAcceleration(Vector2())
+        val mapper = mapperFor<Box2dSteering>()
+        fun has(entity: Entity):Boolean {
+            return mapper.has(entity)
+        }
+        fun get(entity: Entity): Box2dSteering {
+            return mapper.get(entity)
+        }
+    }
+
+    override fun reset() {
+        steeringBehavior = null
+        _body = null
     }
 }

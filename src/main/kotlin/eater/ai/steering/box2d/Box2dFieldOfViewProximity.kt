@@ -15,6 +15,7 @@
  */
 package eater.ai.steering.box2d
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
@@ -36,7 +37,8 @@ class Box2dFieldOfViewProximity(owner: Steerable<Vector2>, world: World, detecti
     var coneThreshold = 0f
 
     override fun getSteerable(fixture: Fixture): Steerable<Vector2> {
-        return fixture.body.userData as Steerable<Vector2>
+        val entity = fixture.body.userData as Entity
+        return Box2dSteering.get(entity)
     }
 
     override fun prepareAABB(aabb: AABB) {
