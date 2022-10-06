@@ -10,8 +10,12 @@ class EnsureEntitySystem(vararg definition: EnsureEntityDef):IntervalSystem(1f) 
 
     override fun updateInterval() {
         for(def in definitions) {
-            if(engine.getEntitiesFor(def.entityFamily).size() < def.numberOfEntities)
-                def.creator()
+            val diff = def.numberOfEntities - engine.getEntitiesFor(def.entityFamily).size()
+            if(diff > 0) {
+                (0..diff).forEach { _ ->
+                    def.creator()
+                }
+            }
         }
 
     }
