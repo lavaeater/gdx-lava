@@ -31,32 +31,21 @@ import ktx.ashley.mapperFor
  * @author davebaol
  */
 open class Box2dSteering(
-    b: Body,
-    var isIndependentFacing: Boolean,
-    private var _boundingRadius: Float
 ) : Steerable<Vector2>, Component, Pool.Poolable {
+    var isIndependentFacing = false
+    private var _boundingRadius = 5f
     private var _tagged = false
     private var _maxLinearSpeed = 0f
     private var _maxLinearAcceleration = 0f
     private var _maxAngularSpeed = 0f
     private var _maxAngularAcceleration = 0f
     var steeringBehavior: SteeringBehavior<Vector2>? = null
-    private var _body: Body? = b
+    private var _body: Body? = null
     var body: Body 
         get() = _body!!
         set(value) {
             _body = value
         }
-    
-    init {
-        _body = body
-    }
-
-    fun changeSteeringBehavior(behavior: SteeringBehavior<Vector2>) {
-        steeringBehavior = behavior
-        behavior.owner = this
-    }
-
 
     override fun getPosition(): Vector2 {
         return body.position
@@ -76,6 +65,10 @@ open class Box2dSteering(
 
     override fun getAngularVelocity(): Float {
         return body.angularVelocity
+    }
+
+    fun setBoundingRadius(radius: Float) {
+        _boundingRadius = radius
     }
 
     override fun getBoundingRadius(): Float {
@@ -171,29 +164,6 @@ open class Box2dSteering(
         }
     }
 
-    // the display area is considered to wrap around from top to bottom
-    // and from left to right
-    protected fun wrapAround(maxX: Float, maxY: Float) {
-        var k = Float.POSITIVE_INFINITY
-        val pos = body.position
-        if (pos.x > maxX) {
-            pos.x = 0.0f
-            k = pos.x
-        }
-        if (pos.x < 0) {
-            pos.x = maxX
-            k = pos.x
-        }
-        if (pos.y < 0) {
-            pos.y = maxY
-            k = pos.y
-        }
-        if (pos.y > maxY) {
-            pos.y = 0.0f
-            k = pos.y
-        }
-        if (k != Float.POSITIVE_INFINITY) body.setTransform(pos, body.angle)
-    }
 
     //
     // Limiter implementation
