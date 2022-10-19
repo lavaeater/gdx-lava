@@ -30,10 +30,10 @@ import ktx.ashley.mapperFor
  *
  * @author davebaol
  */
-class Box2dSteering(
+open class Box2dSteering(
     b: Body,
     var isIndependentFacing: Boolean,
-    var _boundingRadius: Float
+    private var _boundingRadius: Float
 ) : Steerable<Vector2>, Component, Pool.Poolable {
     private var _tagged = false
     private var _maxLinearSpeed = 0f
@@ -50,6 +50,11 @@ class Box2dSteering(
     
     init {
         _body = body
+    }
+
+    fun changeSteeringBehavior(behavior: SteeringBehavior<Vector2>) {
+        steeringBehavior = behavior
+        behavior.owner = this
     }
 
 
@@ -113,13 +118,9 @@ class Box2dSteering(
             // Apply steering acceleration
             applySteering(steeringOutput, deltaTime)
         }
-//        wrapAround(
-//            Box2dSteeringTest.pixelsToMeters(Gdx.graphics.width),
-//            Box2dSteeringTest.pixelsToMeters(Gdx.graphics.height)
-//        )
     }
 
-    protected fun applySteering(steering: SteeringAcceleration<Vector2>?, deltaTime: Float) {
+    private fun applySteering(steering: SteeringAcceleration<Vector2>?, deltaTime: Float) {
         var anyAccelerations = false
 
         // Update position and linear velocity.
@@ -193,22 +194,6 @@ class Box2dSteering(
         }
         if (k != Float.POSITIVE_INFINITY) body.setTransform(pos, body.angle)
     }
-
-//    fun draw(batch: Batch) {
-//        val pos = body.position
-//        val w = region.regionWidth.toFloat()
-//        val h = region.regionHeight.toFloat()
-//        val ox = w / 2f
-//        val oy = h / 2f
-//        batch.draw(
-//            region,  //
-//            Box2dSteeringTest.metersToPixels(pos.x) - ox, Box2dSteeringTest.metersToPixels(pos.y) - oy,  //
-//            ox, oy,  //
-//            w, h,  //
-//            1f, 1f,  //
-//            body.angle * MathUtils.radiansToDegrees
-//        ) //
-//    }
 
     //
     // Limiter implementation
