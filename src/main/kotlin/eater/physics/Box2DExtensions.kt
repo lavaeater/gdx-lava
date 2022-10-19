@@ -127,6 +127,10 @@ fun Contact.eitherIsSensor() : Boolean {
     return this.fixtureA.isSensor || this.fixtureB.isSensor
 }
 
+fun Contact.bothAreSensors() : Boolean {
+    return this.fixtureA.isSensor && this.fixtureB.isSensor
+}
+
 fun Float.toDegrees(): Float {
     return this * MathUtils.radiansToDegrees
 }
