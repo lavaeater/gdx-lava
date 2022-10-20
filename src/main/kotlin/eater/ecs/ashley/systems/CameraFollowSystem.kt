@@ -4,16 +4,15 @@ package eater.ecs.ashley.systems
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.utils.viewport.ExtendViewport
 import eater.ecs.ashley.components.Box2d
 import eater.ecs.ashley.components.CameraFollow
 import ktx.ashley.allOf
 import ktx.math.vec2
 import ktx.math.vec3
 
-class CameraFollowSystem(
-    private val camera: OrthographicCamera,
-    private val alpha: Float
+open class CameraFollowSystem(
+    protected val camera: OrthographicCamera,
+    protected val alpha: Float
 ) :
     IteratingSystem(
         allOf(
@@ -22,7 +21,8 @@ class CameraFollowSystem(
         ).get()
     ) {
 
-    private val cameraPosition = vec2()
+    protected val cameraPosition = vec2()
+
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
 
