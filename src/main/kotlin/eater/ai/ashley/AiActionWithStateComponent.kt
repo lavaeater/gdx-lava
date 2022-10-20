@@ -6,19 +6,19 @@ import com.badlogic.ashley.core.Entity
 import eater.core.engine
 import kotlin.reflect.KClass
 
-abstract class AiActionWithState<T: Component>(name: String, val componentClass: KClass<T>): AiAction(name) {
+abstract class AiActionWithStateComponent<T: Component>(name: String, val stateComponentClass: KClass<T>): AiAction(name) {
     lateinit var state: T
-    val mapper = ComponentMapper.getFor(componentClass.java)
+    val mapper = ComponentMapper.getFor(stateComponentClass.java)
     private fun removeState(entity: Entity) {
-        entity.remove(componentClass.java)
+        entity.remove(stateComponentClass.java)
     }
     private fun setState(entity: Entity) {
         if(!mapper.has(entity)) {
-            val state = engine().createComponent(componentClass.java)
+            val state = engine().createComponent(stateComponentClass.java)
             entity.add(state)
             initState(state)
         }
-        state = entity.getComponent(componentClass.java)
+        state = entity.getComponent(stateComponentClass.java)
     }
 
     open fun initState(state: T) {
