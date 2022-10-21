@@ -5,7 +5,7 @@ import com.badlogic.ashley.systems.IntervalIteratingSystem
 import eater.ai.ashley.AiComponent
 import ktx.ashley.allOf
 
-class UpdateActionsSystem : IntervalIteratingSystem(allOf(AiComponent::class).get(), 0.03f) {
+class UpdateActionsSystem : IntervalIteratingSystem(allOf(AiComponent::class).get(), 0.01f) {
 
     override fun processEntity(entity: Entity) {
         val ai = AiComponent.get(entity)

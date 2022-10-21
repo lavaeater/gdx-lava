@@ -32,7 +32,6 @@ abstract class AiActionWithStateComponent<T: Component>(name: String, val stateC
     abstract fun actFunction(entity: Entity, stateComponent: T, deltaTime: Float)
 
     override fun abort(entity: Entity) {
-        info { "Aborting $name action" }
         removeState(entity)
         abortFunction(entity)
     }
