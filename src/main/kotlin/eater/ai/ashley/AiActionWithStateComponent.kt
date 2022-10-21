@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
 import eater.core.engine
+import ktx.log.info
 import kotlin.reflect.KClass
 
 abstract class AiActionWithStateComponent<T: Component>(name: String, val stateComponentClass: KClass<T>): AiAction(name) {
@@ -31,6 +32,7 @@ abstract class AiActionWithStateComponent<T: Component>(name: String, val stateC
     abstract fun actFunction(entity: Entity, stateComponent: T, deltaTime: Float)
 
     override fun abort(entity: Entity) {
+        info { "Aborting $name action" }
         removeState(entity)
         abortFunction(entity)
     }
