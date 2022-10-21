@@ -19,9 +19,9 @@ import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
 import ktx.math.vec2
 
-class Box2dLocation : Location<Vector2> {
-    private var _position: Vector2 = vec2()
-    private var _orientation = 0f
+class Box2dLocation(
+    private var _position: Vector2 = vec2(), private var _orientation: Float = 0f
+) : Location<Vector2> {
 
 
     override fun getPosition(): Vector2 {

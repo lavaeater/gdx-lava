@@ -40,6 +40,7 @@ open class Box2dSteering(
     private var _maxAngularSpeed = 0f
     private var _maxAngularAcceleration = 0f
     var steeringBehavior: SteeringBehavior<Vector2>? = null
+    val steeringOutput = SteeringAcceleration(Vector2())
     private var _body: Body? = null
     var body: Body 
         get() = _body!!
@@ -209,7 +210,7 @@ open class Box2dSteering(
     }
 
     companion object {
-        private val steeringOutput = SteeringAcceleration(Vector2())
+
         val mapper = mapperFor<Box2dSteering>()
         fun has(entity: Entity):Boolean {
             return mapper.has(entity)

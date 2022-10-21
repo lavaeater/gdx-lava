@@ -14,21 +14,21 @@ abstract class AiActionWithStateComponent<T: Component>(name: String, val stateC
     }
     private fun setState(entity: Entity) {
         if(!mapper.has(entity)) {
-            val state = engine().createComponent(stateComponentClass.java)
-            entity.add(state)
-            initState(state)
+            val stateComponent = engine().createComponent(stateComponentClass.java)
+            entity.add(stateComponent)
+            initState(stateComponent)
         }
         state = entity.getComponent(stateComponentClass.java)
     }
 
-    open fun initState(state: T) {
+    open fun initState(stateComponent: T) {
         //Default is of course no-op
     }
 
     abstract fun scoreFunction(entity: Entity):Float
 
     abstract fun abortFunction(entity: Entity)
-    abstract fun actFunction(entity: Entity, state: T, deltaTime: Float)
+    abstract fun actFunction(entity: Entity, stateComponent: T, deltaTime: Float)
 
     override fun abort(entity: Entity) {
         removeState(entity)
