@@ -20,7 +20,7 @@ class AiComponent : Component, Pool.Poolable {
         if(canSwitchAction) {
             val potentialAction = actions.first()
             if (currentAction != potentialAction) {
-//                currentAction?.abort(entity)
+                currentAction?.abort(entity)
                 currentAction = potentialAction
             }
         }

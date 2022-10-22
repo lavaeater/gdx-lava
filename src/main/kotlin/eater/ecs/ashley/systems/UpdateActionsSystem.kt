@@ -9,5 +9,6 @@ class UpdateActionsSystem : IntervalIteratingSystem(allOf(AiComponent::class).ge
 
     override fun processEntity(entity: Entity) {
         val ai = AiComponent.get(entity)
-        ai.updateAction(entity)    }
+        ai.updateAction(entity)
+    }
 }
