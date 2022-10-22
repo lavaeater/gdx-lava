@@ -11,6 +11,7 @@ abstract class AiActionWithStateComponent<T: Component>(name: String, val stateC
     lateinit var state: T
     val mapper = ComponentMapper.getFor(stateComponentClass.java)
     private fun removeState(entity: Entity) {
+        
         entity.remove(stateComponentClass.java)
     }
     private fun setState(entity: Entity) {
@@ -32,6 +33,7 @@ abstract class AiActionWithStateComponent<T: Component>(name: String, val stateC
     abstract fun actFunction(entity: Entity, stateComponent: T, deltaTime: Float)
 
     override fun abort(entity: Entity) {
+        info { "Aborted $name" }
         removeState(entity)
         abortFunction(entity)
     }
