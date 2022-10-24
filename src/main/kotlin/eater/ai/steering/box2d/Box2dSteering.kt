@@ -18,6 +18,7 @@ package eater.ai.steering.box2d
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.steer.Steerable
+import com.badlogic.gdx.ai.steer.SteerableAdapter
 import com.badlogic.gdx.ai.steer.SteeringAcceleration
 import com.badlogic.gdx.ai.steer.SteeringBehavior
 import com.badlogic.gdx.ai.utils.Location
@@ -25,6 +26,29 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
+import ktx.math.vec2
+
+open class StupidSteerable: SteerableAdapter<Vector2>(), Component, Pool.Poolable {
+    var actualPosition = vec2()
+    override fun getPosition(): Vector2 {
+        return actualPosition
+    }
+
+    override fun reset() {
+        actualPosition = vec2()
+    }
+
+    companion object {
+        val mapper = mapperFor<StupidSteerable>()
+        fun has(entity: Entity):Boolean {
+            return mapper.has(entity)
+        }
+
+        fun get(entity: Entity): StupidSteerable {
+            return mapper.get(entity)
+        }
+    }
+}
 
 /** A steering entity for box2d physics engine.
  *

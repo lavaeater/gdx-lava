@@ -17,31 +17,39 @@ package eater.ai.steering.box2d
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.ai.steer.Steerable
+import com.badlogic.gdx.ai.steer.SteerableAdapter
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.World
+import eater.physics.addComponent
 
 /** A `Box2dRadiusProximity` is a [Proximity] that queries the world for all fixtures that potentially overlap the
  * circle having the specified detection radius and whose center is the owner position.
  *
  * @author davebaol
  */
-class Box2dRadiusProximity(owner: Steerable<Vector2>, world: World, detectionRadius: Float) :
-    Box2dSquareAABBProximity(owner, world, detectionRadius) {
-    override fun getSteerable(fixture: Fixture): Steerable<Vector2> {
-        val entity = fixture.body.userData as Entity
-
-        return Box2dSteering.get(entity)
-    }
-
-    override fun accept(steerable: Steerable<Vector2>): Boolean {
+class Box2dRadiusProximity(
+    owner: Steerable<Vector2>,
+    world: World,
+    detectionRadius: Float,
+    acceptFunction: (Steerable<Vector2>) -> Boolean = { _ -> true }
+) :
+    Box2dSquareAABBProximity(owner, world, detectionRadius, acceptFunction) {
+    override fun accept(steerable: Steerable<Vector2>?): Boolean {
         // The bounding radius of the current body is taken into account
         // by adding it to the radius proximity
-        val range = detectionRadius + steerable.boundingRadius
+        return if (steerable == null)
+            false
+        else {
+            return if (acceptFunction(steerable)) {
+                val range = detectionRadius + steerable.boundingRadius
 
-        // Make sure the current body is within the range.
-        // Notice we're working in distance-squared space to avoid square root.
-        val distanceSquare = steerable.position.dst2(_owner.position)
-        return distanceSquare <= range * range
+                // Make sure the current body is within the range.
+                // Notice we're working in distance-squared space to avoid square root.
+                val distanceSquare = steerable.position.dst2(_owner.position)
+                distanceSquare <= range * range
+            } else
+                false
+        }
     }
 }

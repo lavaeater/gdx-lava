@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.QueryCallback
 import com.badlogic.gdx.physics.box2d.World
+import eater.physics.addComponent
 
 /** A `Box2dSquareAABBProximity` is a [Proximity] that queries the world for all fixtures that potentially overlap the
  * square AABB built around the circle having the specified detection radius and whose center is the owner position.
@@ -34,7 +35,8 @@ open class Box2dSquareAABBProximity(
     /** Sets the box2d world.  */
     val world: World,
     /** Sets the detection radius that is half the side of the square AABB.  */
-    var detectionRadius: Float
+    var detectionRadius: Float,
+    val acceptFunction: (Steerable<Vector2>)-> Boolean = {_ -> true}
 ) : Proximity<Vector2>, QueryCallback {
     /** Returns the box2d world.  */
     protected var behaviorCallback: ProximityCallback<Vector2>? = null
@@ -66,13 +68,26 @@ open class Box2dSquareAABBProximity(
         aabb.upperY = position.y + detectionRadius
     }
 
-    protected open fun getSteerable(fixture: Fixture): Steerable<Vector2> {
-        val entity = fixture.body.userData as Entity
-        return Box2dSteering.get(entity)
+    protected open fun getSteerable(fixture: Fixture): Steerable<Vector2>? {
+        return if (fixture.body.userData == null)
+            null
+        else {
+            val entity = fixture.body.userData as Entity
+            if (Box2dSteering.has(entity)) Box2dSteering.get(entity) else
+                entity.addComponent<Box2dSteering> {
+                    isIndependentFacing = false
+                    body = fixture.body
+                    maxLinearSpeed = 0f
+                    maxLinearAcceleration = 0f
+                    maxAngularAcceleration = 0f
+                    maxAngularSpeed = 0f
+                    boundingRadius = 0f
+                }
+        }
     }
 
-    protected open fun accept(steerable: Steerable<Vector2>): Boolean {
-        return true
+    protected open fun accept(steerable: Steerable<Vector2>?): Boolean {
+        return (steerable != null) && acceptFunction(steerable)
     }
 
     override fun reportFixture(fixture: Fixture): Boolean {

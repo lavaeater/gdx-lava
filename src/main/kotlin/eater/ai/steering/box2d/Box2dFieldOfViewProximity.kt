@@ -36,10 +36,6 @@ class Box2dFieldOfViewProximity(owner: Steerable<Vector2>, world: World, detecti
         }
     var coneThreshold = 0f
 
-    override fun getSteerable(fixture: Fixture): Steerable<Vector2> {
-        val entity = fixture.body.userData as Entity
-        return Box2dSteering.get(entity)
-    }
 
     override fun prepareAABB(aabb: AABB) {
         super.prepareAABB(aabb)
@@ -48,22 +44,26 @@ class Box2dFieldOfViewProximity(owner: Steerable<Vector2>, world: World, detecti
         _owner.angleToVector(ownerOrientation, _owner.orientation)
     }
 
-    override fun accept(steerable: Steerable<Vector2>): Boolean {
-        toSteerable.set(steerable.position).sub(_owner.position)
+    override fun accept(steerable: Steerable<Vector2>?): Boolean {
+        return if(steerable == null)
+            false
+        else if(acceptFunction(steerable)) {
+            toSteerable.set(steerable.position).sub(_owner.position)
 
-        // The bounding radius of the current body is taken into account
-        // by adding it to the radius proximity
-        val range = detectionRadius + steerable.boundingRadius
-        val toSteerableLen2 = toSteerable.len2()
+            // The bounding radius of the current body is taken into account
+            // by adding it to the radius proximity
+            val range = detectionRadius + steerable.boundingRadius
+            val toSteerableLen2 = toSteerable.len2()
 
-        // Make sure the steerable is within the range.
-        // Notice we're working in distance-squared space to avoid square root.
-        return if (toSteerableLen2 < range * range) {
-            // Accept the steerable if it is within the field of view of the owner.
-            ownerOrientation.dot(toSteerable) > coneThreshold
-        } else false
-
-        // Reject the steerable
+            // Make sure the steerable is within the range.
+            // Notice we're working in distance-squared space to avoid square root.
+            return if (toSteerableLen2 < range * range) {
+                // Accept the steerable if it is within the field of view of the owner.
+                ownerOrientation.dot(toSteerable) > coneThreshold
+            } else false
+        } else {
+            false
+        }
     }
 
     companion object {

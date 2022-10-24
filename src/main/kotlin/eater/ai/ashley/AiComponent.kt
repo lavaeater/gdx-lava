@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
+import ktx.log.info
 
 class AiComponent : Component, Pool.Poolable {
     val actions = mutableListOf<AiAction>()
@@ -20,6 +21,7 @@ class AiComponent : Component, Pool.Poolable {
         if(canSwitchAction) {
             val potentialAction = actions.first()
             if (currentAction != potentialAction) {
+                info { "New Top Action: ${potentialAction.name}: ${potentialAction.score}" }
                 currentAction?.abort(entity)
                 currentAction = potentialAction
             }
