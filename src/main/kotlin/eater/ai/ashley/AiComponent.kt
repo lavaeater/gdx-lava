@@ -21,7 +21,6 @@ class AiComponent : Component, Pool.Poolable {
         if(canSwitchAction) {
             val potentialAction = actions.first()
             if (currentAction != potentialAction) {
-                info { "New Top Action: ${potentialAction.name}: ${potentialAction.score}" }
                 currentAction?.abort(entity)
                 currentAction = potentialAction
             }
