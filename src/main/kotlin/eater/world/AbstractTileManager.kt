@@ -128,7 +128,6 @@ abstract class AbstractTileManager<T: Tile>(private val tilesPerSide: Int) : ITi
                 currentChunks = keys.map { getOrCreateChunk(it) }
                 currentTiles = currentChunks.map { it.tiles }.flatten()
                 allTiles = chunks.values.map { it.tiles }.flatten()
-                info { "$newChunkKey is new Center of ${allTiles.count()} tiles" }
                 fixNeighbours()
             }
         }
