@@ -21,6 +21,7 @@ import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.ai.steer.SteerableAdapter
 import com.badlogic.gdx.ai.steer.SteeringAcceleration
 import com.badlogic.gdx.ai.steer.SteeringBehavior
+import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering
 import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
@@ -28,7 +29,7 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-open class StupidSteerable: SteerableAdapter<Vector2>(), Component, Pool.Poolable {
+open class StupidSteerable : SteerableAdapter<Vector2>(), Component, Pool.Poolable {
     var actualPosition = vec2()
     override fun getPosition(): Vector2 {
         return actualPosition
@@ -40,7 +41,7 @@ open class StupidSteerable: SteerableAdapter<Vector2>(), Component, Pool.Poolabl
 
     companion object {
         val mapper = mapperFor<StupidSteerable>()
-        fun has(entity: Entity):Boolean {
+        fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
 
@@ -54,7 +55,7 @@ open class StupidSteerable: SteerableAdapter<Vector2>(), Component, Pool.Poolabl
  *
  * @author davebaol
  */
-open class Box2dSteering(
+open class Box2dSteerable(
 ) : Steerable<Vector2>, Component, Pool.Poolable {
     var isIndependentFacing = false
     private var _boundingRadius = 5f
@@ -64,9 +65,11 @@ open class Box2dSteering(
     private var _maxAngularSpeed = 0f
     private var _maxAngularAcceleration = 0f
     var steeringBehavior: SteeringBehavior<Vector2>? = null
+
     val steeringOutput = SteeringAcceleration(Vector2())
     private var _body: Body? = null
-    var body: Body 
+
+    var body: Body
         get() = _body!!
         set(value) {
             _body = value
@@ -235,11 +238,12 @@ open class Box2dSteering(
 
     companion object {
 
-        val mapper = mapperFor<Box2dSteering>()
-        fun has(entity: Entity):Boolean {
+        val mapper = mapperFor<Box2dSteerable>()
+        fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
-        fun get(entity: Entity): Box2dSteering {
+
+        fun get(entity: Entity): Box2dSteerable {
             return mapper.get(entity)
         }
     }

@@ -73,8 +73,8 @@ open class Box2dSquareAABBProximity(
             null
         else {
             val entity = fixture.body.userData as Entity
-            if (Box2dSteering.has(entity)) Box2dSteering.get(entity) else
-                entity.addComponent<Box2dSteering> {
+            if (Box2dSteerable.has(entity)) Box2dSteerable.get(entity) else
+                entity.addComponent<Box2dSteerable> {
                     isIndependentFacing = false
                     body = fixture.body
                     maxLinearSpeed = 0f

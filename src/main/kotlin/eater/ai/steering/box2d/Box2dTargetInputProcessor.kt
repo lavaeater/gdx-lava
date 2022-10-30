@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector2
  *
  * @autor davebaol
  */
-class Box2dTargetInputProcessor(protected var target: Box2dSteering) : InputAdapter() {
+class Box2dTargetInputProcessor(protected var target: Box2dSteerable) : InputAdapter() {
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         setTargetPosition(screenX, screenY)
         return true
