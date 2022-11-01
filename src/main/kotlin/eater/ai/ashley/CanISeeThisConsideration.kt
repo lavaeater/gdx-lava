@@ -12,10 +12,10 @@ import eater.physics.createComponent
 import eater.physics.getEntity
 import eater.physics.isEntity
 import ktx.ashley.allOf
-import ktx.ashley.mapperFor
 import ktx.box2d.RayCast
 import ktx.box2d.rayCast
 import ktx.log.debug
+import ktx.log.info
 import ktx.math.vec2
 import kotlin.reflect.KClass
 import kotlin.reflect.full.starProjectedType
@@ -82,7 +82,9 @@ class CanISeeThisConsideration<ToLookFor : Component>(
                 seenEntities[e] = memory.memoryLifeSpan
             }
         }
-        return if (seenEntities.any() ) 1f else 0f
+        return if (seenEntities.any() ) {
+            1f
+        }else 0f
     }
 }
 
