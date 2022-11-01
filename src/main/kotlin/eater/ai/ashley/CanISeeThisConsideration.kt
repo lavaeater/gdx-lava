@@ -21,10 +21,18 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.starProjectedType
 
 
+class DoIRememberThisConsideration<ToRemember: Component>(
+private val toRemember: KClass<ToRemember>
+) : Consideration("Do you remember?") {
+    override fun normalizedScore(entity: Entity): Float {
+        val memory = ensureMemory(entity)
+        return if(memory.seenEntities.containsKey(toRemember.starProjectedType) && memory.seenEntities[toRemember.starProjectedType]!!.isNotEmpty()) 1f else 0f
+    }
+}
+
 class CanISeeThisConsideration<ToLookFor : Component>(
     private val lookFor: KClass<ToLookFor>
 ) : Consideration("Can I See ") {
-    private val storeMapper = mapperFor<Memory>()
     private val entitiesToLookForFamily = allOf(lookFor, TransformComponent::class).get()
     private val engine by lazy { engine() }
     override fun normalizedScore(entity: Entity): Float {
@@ -81,13 +89,12 @@ class CanISeeThisConsideration<ToLookFor : Component>(
 fun ensureMemory(
     entity: Entity
 ): Memory {
-    val mapper = mapperFor<Memory>()
-    val memory = if (!mapper.has(entity)) {
+    val memory = if (!Memory.has(entity)) {
         val component = engine().createComponent<Memory>()
         entity.add(component)
         component
     } else {
-        mapper.get(entity)
+        Memory.get(entity)
     }
     return memory
 }

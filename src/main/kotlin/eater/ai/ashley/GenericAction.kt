@@ -7,14 +7,14 @@ class GenericAction(
     name: String,
     private val scoreFunction: (entity: Entity) -> Float,
     private val abortFunction: (entity: Entity) -> Unit,
-    private val actFunction: (entity: Entity, deltaTime:Float) -> Unit,
+    private val actFunction: (entity: Entity, deltaTime:Float) -> Boolean,
     scoreRange: ClosedFloatingPointRange<Float> = 0f..1f): AiAction(name, scoreRange) {
     override fun abort(entity: Entity) {
         abortFunction(entity)
     }
 
-    override fun act(entity: Entity, deltaTime: Float) {
-        actFunction(entity, deltaTime)
+    override fun act(entity: Entity, deltaTime: Float) : Boolean {
+        return actFunction(entity, deltaTime)
     }
 
     override fun updateScore(entity: Entity): Float {

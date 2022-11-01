@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 
 class ConsideredActionWithState<T : Component>(
     name: String,
-    private val actFunction: (entity: Entity, stateComponent: T, deltaTime: Float) -> Unit,
+    private val actFunction: (entity: Entity, stateComponent: T, deltaTime: Float) -> Boolean,
     private val stateComponentClass: KClass<T>,
     scoreRange: ClosedFloatingPointRange<Float> = 0f..1f,
     vararg consideration: Consideration
@@ -43,7 +43,7 @@ class ConsideredActionWithState<T : Component>(
         abortFunction(entity)
     }
 
-    override fun act(entity: Entity, deltaTime: Float) {
-        actFunction(entity, ensureState(entity), deltaTime)
+    override fun act(entity: Entity, deltaTime: Float) : Boolean {
+        return actFunction(entity, ensureState(entity), deltaTime)
     }
 }

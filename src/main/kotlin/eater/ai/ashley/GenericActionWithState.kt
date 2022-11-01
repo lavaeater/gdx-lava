@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class GenericActionWithState<T: Component>(name: String,
                                            private val scoreFunction: (entity: Entity) -> Float,
                                            private val abortFunction: (entity: Entity) -> Unit = {},
-                                           private val actFunction: (entity: Entity, state: T, deltaTime:Float) -> Unit,
+                                           private val actFunction: (entity: Entity, state: T, deltaTime:Float) -> Boolean,
                                            private val componentClass: KClass<T>): AiAction(name) {
     lateinit var state: T
     val mapper = ComponentMapper.getFor(componentClass.java)
@@ -35,8 +35,8 @@ class GenericActionWithState<T: Component>(name: String,
         abortFunction(entity)
     }
 
-    override fun act(entity: Entity, deltaTime: Float) {
+    override fun act(entity: Entity, deltaTime: Float) : Boolean {
         setState(entity)
-        actFunction(entity, state, deltaTime)
+        return actFunction(entity, state, deltaTime)
     }
 }

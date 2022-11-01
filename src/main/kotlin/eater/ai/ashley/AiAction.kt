@@ -41,6 +41,12 @@ abstract class AiAction(val name: String, val scoreRange: ClosedFloatingPointRan
      * Does the thing it should do
      * Remember that actions should not hold their own state,
      * state should rather be kept on the entities themselves.
+     *
+     * returning true will trigger a re-scoring of all the actions
+     * which COULD be used to trigger actions that we want to happen fast.
+     *
+     * This could also be implemented by some actions only updating their scores on a timer,
+     * instead. Who knows.
      */
-    abstract fun act(entity: Entity, deltaTime: Float)
+    abstract fun act(entity: Entity, deltaTime: Float) : Boolean
 }

@@ -11,7 +11,9 @@ import ktx.ashley.mapperFor
 class AshleyAiSystem : IteratingSystem(allOf(AiComponent::class).exclude(Remove::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val ai = AiComponent.get(entity)
-        ai.topAction(entity)?.act(entity, deltaTime)
+        if(ai.topAction(entity)?.act(entity, deltaTime) == true) {
+            ai.updateAction(entity)
+        }
     }
 }
 

@@ -30,16 +30,16 @@ class AddComponentIfConsiderationIsTrueAction<ToAdd: Component>(name: String, sc
         return entity.getComponent(componentToAdd.java)
     }
 
-    private fun discardState(entity: Entity) {
+    private fun discardComponent(entity: Entity) {
         entity.remove(componentToAdd.java)
     }
 
     override fun abort(entity: Entity) {
-        discardState(entity)
+        discardComponent(entity)
         abortFunction(entity)
     }
 
-    override fun act(entity: Entity, deltaTime: Float) {
+    override fun act(entity: Entity, deltaTime: Float) : Boolean {
         /**
          * The motherfucking can i see this consideration adds seen entitities
          * to the motherfucking memory of the entity which is so fudging cool it isn't even cool.
@@ -48,5 +48,7 @@ class AddComponentIfConsiderationIsTrueAction<ToAdd: Component>(name: String, sc
          * But it uses agent properties, which means I have two sets of properties now. I have
          * to merge this into one component.
          */
+        ensureComponent(entity)
+        return false // could be useful, but not as we have done it now.
     }
 }
