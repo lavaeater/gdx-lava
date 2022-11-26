@@ -8,5 +8,5 @@ abstract class Musician(protected val metronome: Metronome, var intensity: Float
         currentChord = chord
     }
 
-    abstract fun updateNotes(timeBars: Float)
+    abstract fun updateNotes(timeBars: Float, newIntensity: Float)
 }
