@@ -7,9 +7,9 @@ class Conductor(private val metronome: Metronome, private val chords: Array<Chor
 
         val timeBars = metronome.timeBars
         val chordTimeBars = timeBars % chordLengthBars
-        val currentChord = chords.first { it.barPos > chordTimeBars }
+        //val currentChord = chords.first { it.barPos > chordTimeBars }
         for (musician in musicians) {
-            musician.setChord(currentChord)
+          //  musician.setChord(currentChord)
             musician.updateNotes(timeBars)
         }
     }
