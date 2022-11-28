@@ -1,5 +1,8 @@
 package eater.music
 
+import com.badlogic.gdx.math.MathUtils.floor
+import ktx.math.random
+
 abstract class Musician(protected val metronome: Metronome, var intensity: Float) {
     lateinit var currentChord: Chord
         private set
@@ -9,27 +12,44 @@ abstract class Musician(protected val metronome: Metronome, var intensity: Float
     }
 
     abstract fun updateNotes(timeBars: Float, newIntensity: Float)
+    protected val last16th get() = floor(lastTimeBars * 16f) % 16
+    protected fun getThis16th(timeBars: Float) = floor(timeBars * 16f) % 16
 }
 
-abstract class TonalMusician(protected val sampler: Sampler, metronome: Metronome, intensity: Float):Musician(metronome,intensity) {
-    open fun getNote(notes: List<Note>, minStrength: Float): Note {
-        return notes.filter { it.strength > minStrength }.random()
+open class Bassish(sampler: Sampler, metronome: Metronome, intensity: Float) : TonalMusician(sampler, metronome, intensity) {
+    override fun updateNotes(timeBars: Float, newIntensity: Float) {
+        val this16th = getThis16th(timeBars)
+        lastTimeBars = timeBars
+        if (last16th == this16th)
+            return
+
+        val wholeBar = floor(timeBars)
+        val barFraction = this16th / 16f
+        val noteTime = wholeBar + barFraction
+        if (this16th == 0) {
+            playNote(getChordNote(1f).number, noteTime)
+            return
+        }
+
+        if (this16th % 4 == 0) {
+            if ((0f..1f).random() < intensity)
+                playNote(getChordNote(0.5f).number, noteTime)
+            return
+        }
+
+        if (this16th % 2 == 0) {
+            if ((0f..1f).random() < intensity - 0.25f)
+                playNote(getChordNote(0.25f).number, noteTime)
+            return
+        }
+        if ((0f..1f).random() < intensity - 0.5f)
+            playNote(getChordNote(0f).number, noteTime)
     }
 
-    open fun getChordNote(minStrength: Float):Note {
-        return getNote(currentChord.chordNotes, minStrength)
-    }
-
-    open fun getScaleNote(minStrength: Float):Note {
-        return getNote(currentChord.scaleNotes, minStrength)
-    }
-
-    open fun playNote(noteNumber: Int, timeBars: Float) {
-        sampler.play(noteNumber, metronome.barsToEngineTime(timeBars))
-    }
 }
 
-class Bass(sampler: Sampler, metronome: Metronome, intensity: Float):TonalMusician(sampler, metronome, intensity) {
+class Arpeggiator(sampler: Sampler, metronome: Metronome, intensity: Float) :
+    TonalMusician(sampler, metronome, intensity) {
     override fun updateNotes(timeBars: Float, newIntensity: Float) {
         TODO("Not yet implemented")
     }

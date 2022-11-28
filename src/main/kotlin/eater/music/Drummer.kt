@@ -15,8 +15,7 @@ class Drummer(metronome: Metronome, intensity: Float): Musician(metronome,intens
     private val instrumentsAndNotes = mapOf(kick to kickNotes, snare to snareNotes, hat to hatNotes)
     override fun updateNotes(timeBars: Float, newIntensity: Float) {
         intensity = newIntensity
-        val last16th = floor(lastTimeBars * 16f) % 16
-        val this16th = floor(timeBars * 16f) % 16
+        val this16th = getThis16th(timeBars)
 
         lastTimeBars = timeBars
         if(last16th == this16th)
@@ -33,4 +32,5 @@ class Drummer(metronome: Metronome, intensity: Float): Musician(metronome,intens
                 drum.play(notes[this16th]!!.number, hitTime)
         }
     }
+
 }

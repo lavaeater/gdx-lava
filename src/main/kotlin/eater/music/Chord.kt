@@ -1,6 +1,7 @@
 package eater.music
 
-data class Chord(val barPos: Float, val chordNotes: List<Note>, val scaleNotes: List<Note>) {
+//, val scaleNotes: List<Note>
+data class Chord(val barPos: Float, val chordNotes: List<Note>) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -9,15 +10,13 @@ data class Chord(val barPos: Float, val chordNotes: List<Note>, val scaleNotes: 
 
         if (barPos != other.barPos) return false
         if (chordNotes != other.chordNotes) return false
-        if (scaleNotes != other.scaleNotes) return false
-
         return true
     }
 
     override fun hashCode(): Int {
         var result = barPos.hashCode()
         result = 31 * result + chordNotes.hashCode()
-        result = 31 * result + scaleNotes.hashCode()
+//        result = 31 * result + scaleNotes.hashCode()
         return result
     }
 }
