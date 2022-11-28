@@ -6,7 +6,7 @@ import de.pottgames.tuningfork.Audio
 class MusicPlayer(private val audio: Audio) {
     private val timePiece by lazy { GdxAI.getTimepiece() }
     private val metronome = Metronome(120f)
-    private val conductor by lazy { Conductor(metronome, arrayOf(), 5f, arrayOf(Drummer(metronome,1f))) }
+    private val conductor by lazy { Conductor(metronome, listOf(), 5f, listOf(Drummer(metronome,1f))) }
     private var play = false
     fun toggle() {
         if(play)

@@ -10,9 +10,9 @@ abstract class TonalMusician(protected val sampler: Sampler, metronome: Metronom
         return getNote(currentChord.chordNotes, minStrength)
     }
 
-    open fun getScaleNote(minStrength: Float): Note {
-        return getNote(currentChord.scaleNotes, minStrength)
-    }
+//    open fun getScaleNote(minStrength: Float): Note {
+//        return getNote(currentChord.scaleNotes, minStrength)
+//    }
 
     open fun playNote(noteNumber: Int, timeBars: Float) {
         sampler.play(noteNumber, metronome.barsToEngineTime(timeBars))
