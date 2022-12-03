@@ -27,9 +27,11 @@ class Conductor(private val metronome: Metronome,
         updateIntensity()
         val timeBars = metronome.timeBars
         val chordTimeBars = timeBars % chordLengthBars
-//        val currentChord = chords.first { it.barPos > chordTimeBars }
+        var currentChord = chords.firstOrNull { it.barPos > chordTimeBars }
+        if(currentChord == null)
+            currentChord = chords.first()
         for (musician in musicians) {
-//            musician.setChord(currentChord)
+            musician.setChord(currentChord)
             musician.updateNotes(timeBars, intensity)
         }
     }

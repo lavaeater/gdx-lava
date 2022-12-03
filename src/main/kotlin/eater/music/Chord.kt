@@ -16,7 +16,6 @@ data class Chord(val barPos: Float, val chordNotes: List<Note>) {
     override fun hashCode(): Int {
         var result = barPos.hashCode()
         result = 31 * result + chordNotes.hashCode()
-//        result = 31 * result + scaleNotes.hashCode()
         return result
     }
 }
