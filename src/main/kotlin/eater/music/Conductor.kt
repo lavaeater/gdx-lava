@@ -4,10 +4,10 @@ class Conductor(private val metronome: Metronome,
                 private val chords: List<Chord>,
                 private val chordLengthBars: Float, private val musicians: List<Musician>) {
 
-    private val minIntensity = 0.2f
+    private val minIntensity = 0f
     private val maxIntensity = 1f
-    var intensity = 0.75f
-    var change = 0.05f
+    var intensity = 0.5f
+    var change = 0.0005f
 
     private fun updateIntensity() {
         intensity += change

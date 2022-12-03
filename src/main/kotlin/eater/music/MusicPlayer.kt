@@ -11,26 +11,25 @@ class MusicPlayer(private val audio: Audio) {
             metronome,
             listOf(
                 Chord(1f, listOf(
-                    Note(-2, .3f),
-                    Note(-8, .8f),
-                    Note(-5, 1f),
+                    Note(-7, .3f),
+                    Note(-1, 1f),
                     Note(0, .5f)
                 )),
                 Chord(2f, listOf(
-                    Note(2, .0f),
+                    Note(2, .15f),
                     Note(-1, 1f),
-                    Note(0, .7f)
+                    Note(8, .7f)
                 )),
                 Chord(3f, listOf(
                     Note(-2, .3f),
-                    Note(0, 1f),
-                    Note(4, .5f),
+                    Note(4, 1f),
+                    Note(12, .5f),
                 )),
             ),
             5f,
             listOf(
-                Drummer(metronome,1f),
-                Bassish(loadSampler("bass-one-shot-808-sicko_C_major", "bass-1.json"),
+//                Drummer(metronome,1f),
+                Bassish(loadSampler("short-808-bass_D_major", "bass-1.json"),
                 metronome,
                 1f)
             )) }
