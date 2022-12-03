@@ -8,9 +8,9 @@ class Drummer(metronome: Metronome, intensity: Float): Musician(metronome,intens
     private val snare by lazy { loadSampler("80PD_KitB-Snare02", "drumkit-1.json") }
     private val hat by lazy { loadSampler("80PD_KitB-OpHat02", "drumkit-1.json") }
 
-    private val kickNotes = listOf("c4", "a4").generateBeat(1,4)
-    private val snareNotes = listOf("c4", "d4", "e4", "f4", "g4", "a4").generateBeat(1,8)
-    private val hatNotes = listOf("c4", "d4", "e4", "f4", "g4", "a4").generateBeat(1,12)
+    private val kickNotes = generateBeat(-4..2, 1,4)
+    private val snareNotes = generateBeat(-4..2, 1,8)
+    private val hatNotes = generateBeat(-4..2, 1,12)
 
     private val instrumentsAndNotes = mapOf(kick to kickNotes, snare to snareNotes, hat to hatNotes)
     override fun updateNotes(timeBars: Float, newIntensity: Float) {
@@ -29,7 +29,7 @@ class Drummer(metronome: Metronome, intensity: Float): Musician(metronome,intens
         for((drum, notes) in instrumentsAndNotes) {
             val note = notes[this16th]
             if(note != null && note.strength >= minIntensity)
-                drum.play(notes[this16th]!!.number, hitTime)
+                drum.play(notes[this16th]!!.midiNoteDiff, hitTime)
         }
     }
 

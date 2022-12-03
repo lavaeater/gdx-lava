@@ -1,6 +1,8 @@
 package eater.music
 
-class Conductor(private val metronome: Metronome, private val chords: List<Chord>, private val chordLengthBars: Float, private val musicians: List<Musician>) {
+class Conductor(private val metronome: Metronome,
+                private val chords: List<Chord>,
+                private val chordLengthBars: Float, private val musicians: List<Musician>) {
 
     private val minIntensity = 0.2f
     private val maxIntensity = 1f
@@ -25,9 +27,9 @@ class Conductor(private val metronome: Metronome, private val chords: List<Chord
         updateIntensity()
         val timeBars = metronome.timeBars
         val chordTimeBars = timeBars % chordLengthBars
-        val currentChord = chords.first { it.barPos > chordTimeBars }
+//        val currentChord = chords.first { it.barPos > chordTimeBars }
         for (musician in musicians) {
-            musician.setChord(currentChord)
+//            musician.setChord(currentChord)
             musician.updateNotes(timeBars, intensity)
         }
     }
