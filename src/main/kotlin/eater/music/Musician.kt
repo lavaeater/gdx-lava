@@ -45,7 +45,6 @@ open class Bassish(sampler: Sampler, metronome: Metronome, intensity: Float) : T
         if ((0f..1f).random() < intensity - 0.5f)
             playNote(getChordNote(0f).number, noteTime)
     }
-
 }
 
 class Arpeggiator(sampler: Sampler, metronome: Metronome, intensity: Float) :
