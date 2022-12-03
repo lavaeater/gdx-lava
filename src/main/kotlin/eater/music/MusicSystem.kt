@@ -22,7 +22,7 @@ class MusicPlayer(private val audio: Audio) {
         val soundsToPlayRightNowIGuess = ToPlay.soundsToPlay.filter { it.targetTime < timePiece.time }
         ToPlay.soundsToPlay.removeAll(soundsToPlayRightNowIGuess)
         for(sound in soundsToPlayRightNowIGuess) {
-            audio.play(sound.soundBuffer, sound.pitch)
+            audio.play(sound.soundBuffer, 1f, sound.pitch)
         }
     }
 }

@@ -9,10 +9,3 @@ data class Note(val number: Int, var strength: Float) {
     }
 }
 
-fun String.toNote():Note {
-    return Note.getNote(this, (5..10).random().toFloat() / 10f)
-}
-
-fun String.toNote(strength: Float): Note {
-    return Note.getNote(this, strength)
-}

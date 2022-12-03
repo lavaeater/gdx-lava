@@ -31,3 +31,11 @@ fun List<String>.generateBeat(top: Int, bottom: Int): Map<Int, Note> {
 fun Int.toPitch(): Float {
     return ((this - 60) / 12f).pow(2f)
 }
+
+fun String.toNote():Note {
+    return Note.getNote(this, (5..10).random().toFloat() / 10f)
+}
+
+fun String.toNote(strength: Float): Note {
+    return Note.getNote(this, strength)
+}
