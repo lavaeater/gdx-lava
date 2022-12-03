@@ -26,7 +26,7 @@ fun loadSampler(name: String, instrument: String): Sampler {
 fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int): Map<Int, Note> {
     val tempo = top.toFloat() / bottom.toFloat() * 16f
     val distance = MathUtils.floor(tempo)
-    return (0 until 16 step distance).associateWith { Note(midiNoteSpan.random(), (5..10).random().toFloat() / 10f) }
+    return (0 until 16 step distance).associateWith { Note(midiNoteSpan.random(), (3..9).random().toFloat() / 10f) }
 }
 
 fun Int.toPitch(): Float {
@@ -42,7 +42,7 @@ fun Int.toPitch(): Float {
         if(this < -12)
             0.5f
         else
-            this.absoluteValue.toFloat() / 24f
+            1f - (1f / (24f / this.absoluteValue.toFloat()))
     } else if(this > 0) {
         if(this > 12)
             2f

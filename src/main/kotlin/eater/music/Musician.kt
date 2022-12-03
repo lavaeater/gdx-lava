@@ -12,8 +12,8 @@ abstract class Musician(protected val metronome: Metronome, var intensity: Float
     }
 
     abstract fun updateNotes(timeBars: Float, newIntensity: Float)
-    protected val last16th get() = floor(lastTimeBars * 16f) % 16
     protected fun getThis16th(timeBars: Float) = floor(timeBars * 16f) % 16
+    protected fun getLast16th() = floor(lastTimeBars * 16f) % 16
 }
 
 class Arpeggiator(sampler: Sampler, metronome: Metronome, intensity: Float) :

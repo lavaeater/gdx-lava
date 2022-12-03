@@ -6,6 +6,7 @@ import ktx.math.random
 open class Bassish(sampler: Sampler, metronome: Metronome, intensity: Float) : TonalMusician(sampler, metronome, intensity) {
     override fun updateNotes(timeBars: Float, newIntensity: Float) {
         val this16th = getThis16th(timeBars)
+        val last16th = getLast16th()
         lastTimeBars = timeBars
         if (last16th == this16th)
             return
