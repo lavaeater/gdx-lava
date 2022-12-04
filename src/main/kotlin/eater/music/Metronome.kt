@@ -2,7 +2,7 @@ package eater.music
 
 import com.badlogic.gdx.ai.GdxAI
 
-class Metronome(private val tempo: Float) {
+class Metronome(val tempo: Float) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
     private val currentTime get() = timepiece.time
     private var startTime = 0f
