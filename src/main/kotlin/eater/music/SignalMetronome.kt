@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.math.MathUtils.floor
 
 interface IMusicSignalReceiver {
+    val name: String
     fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
 }
 
