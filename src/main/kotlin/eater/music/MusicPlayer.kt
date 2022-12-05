@@ -5,7 +5,7 @@ import de.pottgames.tuningfork.Audio
 
 class MusicPlayer(private val audio: Audio) {
     private val timePiece by lazy { GdxAI.getTimepiece() }
-    private val metronome = Metronome(120f)
+    val metronome = Metronome(120f)
     private val conductor by lazy {
         Conductor(
             metronome,

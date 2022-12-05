@@ -2,7 +2,13 @@ package eater.music
 
 import com.badlogic.gdx.ai.GdxAI
 
-class Metronome(private val tempo: Float) {
+/**
+ * Perhaps change to something that sends out pulses instead? To the instruments?
+ *
+ * Then the instruments would just have to play their sounds, if it is the correct signal.
+ */
+
+class Metronome(val tempo: Float) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
     private val currentTime get() = timepiece.time
     private var startTime = 0f
