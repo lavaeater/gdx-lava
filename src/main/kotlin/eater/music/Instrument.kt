@@ -1,17 +1,20 @@
 package eater.music
 
-import eater.messaging.IMessage
-import eater.messaging.IMessageReceiver
+open class Instrument(private val sampler: Sampler, private val notes: MutableMap<Int, Note>) :
+    IMusicSignalReceiver {
 
-open class Instrument(private val sampler: Sampler) : IMusicSignalReceiver {
-    val beats = mutableMapOf(0 to 0, 4 to -2, 8 to 2, 12 to 0)
-    override fun signal(sixteenth: Int, timeBars: Float, hitTime: Float) {
-        play(sixteenth, hitTime)
+    var last16th = 0
+    override fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
+        play(beat, sixteenth, hitTime, intensity)
     }
 
-    open fun play(sixteenth: Int, hitTime: Float) {
-        if (beats.contains(sixteenth)) {
-            sampler.play(beats[sixteenth]!!, hitTime)
-        }
+    open fun play(beat: Int, sixteenth: Int, hitTime: Float, intensity: Float) {
+        if(sixteenth == last16th)
+            return
+        val minIntensity = 1f - intensity
+        last16th = sixteenth
+            val note = notes[sixteenth]
+            if(note != null && note.strength >= minIntensity)
+                sampler.play(note.midiNoteDiff, hitTime)
     }
 }

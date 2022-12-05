@@ -23,10 +23,10 @@ fun loadSampler(name: String, instrument: String): Sampler {
     return Sampler(WaveLoader.load(Gdx.files.external(soundFile.path)))
 }
 
-fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int): Map<Int, Note> {
+fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, strengthRange: IntRange = (5..10)): MutableMap<Int, Note> {
     val tempo = top.toFloat() / bottom.toFloat() * 16f
     val distance = MathUtils.floor(tempo)
-    return (0 until 16 step distance).associateWith { Note(midiNoteSpan.random(), (3..9).random().toFloat() / 10f) }
+    return (0 until 16 step distance).associateWith { Note(midiNoteSpan.random(), strengthRange.random().toFloat() / 10f) }.toMutableMap()
 }
 
 fun Int.toPitch(): Float {

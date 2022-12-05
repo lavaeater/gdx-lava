@@ -1,11 +1,10 @@
 package eater.music
 
 import com.badlogic.gdx.ai.GdxAI
-import com.badlogic.gdx.math.MathUtils
-import eater.messaging.MessageHandler
+import com.badlogic.gdx.math.MathUtils.floor
 
 interface IMusicSignalReceiver {
-    fun signal(sixteenth: Int, timeBars: Float, hitTime: Float)
+    fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
 }
 
 class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalReceiver> = mutableListOf()) {
@@ -25,12 +24,15 @@ class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalR
     }
 
     var lastTimeBars = 0f
-    fun getThis16th(timeBars: Float) = MathUtils.floor(timeBars * 16f) % 16
-    fun getLast16th() = MathUtils.floor(lastTimeBars * 16f) % 16
+    val this16th get() = floor(timeBars * 16f) % 16
+
+    val thisBar get() = floor(timeSeconds * (tempo / 60f))
+
+    val last16th get() = floor(lastTimeBars * 16f) % 16
+    val timeSeconds get() = if(playing) currentTime - startTime else 0f
     val timeQuarters: Float get() {
         return if(playing) {
-            val timeSeconds = currentTime - startTime
-            (tempo / 60) * timeSeconds
+            (tempo / 60f) * timeSeconds
         } else 0f
     }
 
@@ -48,22 +50,27 @@ class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalR
         val seconds = quarters / (tempo / 60)
         return startTime + seconds
     }
+
+    var lastBar = 0
+    var intensity = 0.5f
+
     fun update() {
         /**
          * we send a signal every sixteenth containing the info needed,
          * I guess
          */
-        val this16th = getThis16th(timeBars)
-        val last16th = getLast16th()
 
-        lastTimeBars = timeBars
+
         if(last16th == this16th)
             return
 
-        val wholeBar = MathUtils.floor(timeBars)
+        lastTimeBars = timeBars
+
+        val wholeBar = floor(timeBars)
         val barFraction = this16th / 16f
         val hitTime = barsToEngineTime(wholeBar + barFraction)
-        for(receiver in receivers)
-            receiver.signal(this16th, timeBars, hitTime)
+        for(receiver in receivers) {
+            receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
+        }
     }
 }
