@@ -61,10 +61,8 @@ class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalR
          */
 
 
-        if(last16th == this16th)
-            return
-
-        lastTimeBars = timeBars
+        if(last16th != this16th)
+            lastTimeBars = timeBars
 
         val wholeBar = floor(timeBars)
         val barFraction = this16th / 16f
