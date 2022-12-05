@@ -9,12 +9,12 @@ open class Instrument(private val sampler: Sampler, private val notes: MutableMa
     }
 
     open fun play(beat: Int, sixteenth: Int, hitTime: Float, intensity: Float) {
-        if(sixteenth == last16th)
+        if (sixteenth == last16th)
             return
         val minIntensity = 1f - intensity
         last16th = sixteenth
-            val note = notes[sixteenth]
-            if(note != null && note.strength >= minIntensity)
-                sampler.play(note.midiNoteDiff, hitTime)
+        val note = notes[sixteenth]
+        if (note != null && note.strength >= minIntensity)
+            sampler.play(note.midiNoteDiff, hitTime)
     }
 }
