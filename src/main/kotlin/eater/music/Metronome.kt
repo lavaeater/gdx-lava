@@ -10,11 +10,16 @@ class Metronome(private val tempo: Float) {
         private set
     val notPlaying get() = !playing
 
-    val timeBars: Float get() {
+    val timeQuarters: Float get() {
         return if(playing) {
             val timeSeconds = currentTime - startTime
-            val timeQuarters = (tempo / 60) * timeSeconds
-            return timeQuarters / 4f
+            (tempo / 60) * timeSeconds
+        } else 0f
+    }
+
+    val timeBars: Float get() {
+        return if(playing) {
+            timeQuarters / 4f
         } else 0f
     }
 

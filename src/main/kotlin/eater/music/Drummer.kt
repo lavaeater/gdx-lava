@@ -2,7 +2,6 @@ package eater.music
 
 import com.badlogic.gdx.math.MathUtils.floor
 
-
 class Drummer(metronome: Metronome, intensity: Float): Musician(metronome,intensity) {
     private val kick by lazy { loadSampler("80PD_KitB-Kick01", "drumkit-1.json") }
     private val snare by lazy { loadSampler("80PD_KitB-Snare02", "drumkit-1.json") }
