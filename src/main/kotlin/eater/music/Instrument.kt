@@ -1,6 +1,6 @@
 package eater.music
 
-open class Instrument(override val name: String, private val sampler: Sampler, private val notes: MutableMap<Int, Note>) :
+open class Instrument(override val receiverName: String, private val sampler: Sampler, val notes: MutableMap<Int, Note>) :
     IMusicSignalReceiver {
 
     var last16th = 0

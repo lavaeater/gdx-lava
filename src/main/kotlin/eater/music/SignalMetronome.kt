@@ -4,11 +4,11 @@ import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.math.MathUtils.floor
 
 interface IMusicSignalReceiver {
-    val name: String
+    val receiverName: String
     fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
 }
 
-class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalReceiver> = mutableListOf()) {
+class SignalMetronome(val tempo: Float, val instruments: MutableList<IMusicSignalReceiver> = mutableListOf()) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
     private val currentTime get() = timepiece.time
     private var startTime = 0f
@@ -90,7 +90,7 @@ class SignalMetronome(val tempo: Float, val receivers: MutableList<IMusicSignalR
         val wholeBar = floor(timeBars)
         val barFraction = this16th / 16f
         val hitTime = barsToEngineTime(wholeBar + barFraction)
-        for (receiver in receivers) {
+        for (receiver in instruments) {
             receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
         }
     }
