@@ -58,19 +58,29 @@ class SignalMetronome(
 
     var lastBar = 0
     var intensity = 0.2f
-    var change = 0.0005f
-    var oddsOfChange = 5
+    val baseChange = 0.005f
+    var change = 0.005f
+    var chanceOfChange = 45
 
     private fun updateIntensity() {
-        if ((0..9).random() > 10 - oddsOfChange) {
+        val randomValue = (0..99).random()
+        if(randomValue < 5) {
+            change *= 2f
+        } else if((5..10).contains(randomValue)) {
+            change = -change
+        } else if((11..15).contains(randomValue)) {
+            change = if(change < 0f) -baseChange else baseChange
+        }
+
+        if(randomValue < chanceOfChange) {
             intensity += change
             if (intensity > maxIntensity) {
-                intensity = maxIntensity
                 change = -change
+                intensity = maxIntensity
             }
             if (intensity < minIntensity) {
-                intensity = minIntensity
                 change = -change
+                intensity = minIntensity
             }
         }
     }
