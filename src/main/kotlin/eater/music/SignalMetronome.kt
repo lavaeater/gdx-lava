@@ -3,12 +3,11 @@ package eater.music
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.math.MathUtils.floor
 
-interface IMusicSignalReceiver {
-    val receiverName: String
-    fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
-}
-
-class SignalMetronome(val tempo: Float, val instruments: MutableList<IMusicSignalReceiver> = mutableListOf()) {
+class SignalMetronome(
+    val tempo: Float,
+    val instruments: MutableList<IMusicSignalReceiver> = mutableListOf(),
+    val chords: MutableList<Chord> = mutableListOf(),
+    val chordLengthBars: Float = 2f) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
     private val currentTime get() = timepiece.time
     private var startTime = 0f
@@ -82,15 +81,20 @@ class SignalMetronome(val tempo: Float, val instruments: MutableList<IMusicSigna
          * I guess
          */
         updateIntensity()
-
-
         if (last16th != this16th)
             lastTimeBars = timeBars
+
+
+        val chordTimeBars = timeBars % chordLengthBars
+        var currentChord = chords.firstOrNull { it.barPos > chordTimeBars }
+        if(currentChord == null)
+            currentChord = chords.first()
 
         val wholeBar = floor(timeBars)
         val barFraction = this16th / 16f
         val hitTime = barsToEngineTime(wholeBar + barFraction)
         for (receiver in instruments) {
+            receiver.setChord(currentChord)
             receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
         }
     }

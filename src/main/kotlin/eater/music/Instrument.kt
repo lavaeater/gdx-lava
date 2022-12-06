@@ -1,20 +1,25 @@
 package eater.music
 
-open class Instrument(override val receiverName: String, private val sampler: Sampler, val notes: MutableMap<Int, Note>) :
+import com.badlogic.gdx.math.MathUtils
+
+abstract class Instrument(override val receiverName: String, protected val sampler: Sampler, val notes: MutableMap<Int, Note>) :
     IMusicSignalReceiver {
 
-    var last16th = 0
-    override fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
-        play(beat, sixteenth, hitTime, intensity)
+    lateinit var chord: Chord
+        private set
+
+    override fun setChord(chord: Chord) {
+        this.chord = chord
     }
 
-    open fun play(beat: Int, sixteenth: Int, hitTime: Float, intensity: Float) {
-        if (sixteenth == last16th)
-            return
-        val minIntensity = 1f - intensity
-        last16th = sixteenth
-        val note = notes[sixteenth]
-        if (note != null && note.strength >= minIntensity)
-            sampler.play(note.midiNoteDiff, hitTime)
+    var last16th = 0
+    var lastTimeBars = 0f
+    override fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
+        last16th = MathUtils.floor(lastTimeBars * 16f) % 16
+        lastTimeBars = timeBars
+        play(beat, sixteenth, timeBars, hitTime, intensity)
     }
+
+    abstract fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
 }
+
