@@ -2,7 +2,7 @@ package eater.music
 
 import com.badlogic.gdx.math.MathUtils
 
-abstract class Instrument(override val receiverName: String, protected val sampler: Sampler, val notes: MutableMap<Int, Note>) :
+abstract class Instrument(override val receiverName: String, protected val sampler: Sampler):
     IMusicSignalReceiver {
 
     lateinit var chord: Chord
@@ -21,5 +21,7 @@ abstract class Instrument(override val receiverName: String, protected val sampl
     }
 
     abstract fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
+
+    abstract fun willPlay(sixteenth: Int, intensity: Float): Boolean
 }
 

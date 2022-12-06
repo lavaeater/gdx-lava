@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.MathUtils.floor
 
 class SignalMetronome(
     val tempo: Float,
+    val chordLengthBars: Float = 2f,
     val instruments: MutableList<IMusicSignalReceiver> = mutableListOf(),
-    val chords: MutableList<Chord> = mutableListOf(),
-    val chordLengthBars: Float = 2f) {
+    val chords: MutableList<Chord>) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
     private val currentTime get() = timepiece.time
     private var startTime = 0f
