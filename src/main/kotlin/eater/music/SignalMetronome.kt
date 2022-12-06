@@ -64,9 +64,9 @@ class SignalMetronome(
 
     private fun updateIntensity() {
         val randomValue = (0..99).random()
-        if(randomValue < 5) {
+        if(randomValue < 3) {
             change *= 2f
-        } else if((5..10).contains(randomValue)) {
+        } else if((4..6).contains(randomValue)) {
             change = -change
         } else if((11..15).contains(randomValue)) {
             change = if(change < 0f) -baseChange else baseChange

@@ -31,6 +31,10 @@ fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, 
         .toMutableMap()
 }
 
+/**
+ * Takes an integer between -24 and 24 and converts
+ * it to a pitch value corresponding to 0.5 and 2.0.
+ */
 fun Int.toPitch(): Float {
     /**
      * Hmm. So, -12 is 0.5f in pitch,
@@ -41,15 +45,15 @@ fun Int.toPitch(): Float {
      *
      */
     return if (this < 0) {
-        if(this < -12)
+        if(this < -24)
             0.5f
         else
-            1f - (1f / (24f / this.absoluteValue.toFloat()))
+            1f - (1f / (48f / this.absoluteValue.toFloat()))
     } else if(this > 0) {
-        if(this > 12)
+        if(this > 24)
             2f
         else {
-            24f / this.toFloat()
+            48f / this.toFloat()
         }
     } else {
         1f
