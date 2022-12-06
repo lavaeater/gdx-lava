@@ -16,8 +16,8 @@ abstract class Instrument(override val receiverName: String, protected val sampl
     var lastTimeBars = 0f
     override fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
         last16th = MathUtils.floor(lastTimeBars * 16f) % 16
-        lastTimeBars = timeBars
         play(beat, sixteenth, timeBars, hitTime, intensity)
+        lastTimeBars = timeBars
     }
 
     abstract fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
