@@ -23,7 +23,7 @@ fun loadSampler(name: String, instrument: String): Sampler {
     return Sampler(WaveLoader.load(Gdx.files.external(soundFile.path)))
 }
 
-fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, strengthRange: IntRange = (0..10)): MutableMap<Int, Note> {
+fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, strengthRange: IntRange = (3..8)): MutableMap<Int, Note> {
     val tempo = top.toFloat() / bottom.toFloat() * 16f
     val distance = MathUtils.floor(tempo)
     return (0 until 16 step distance).map { if(it + shift > 15) 0 + shift else if(it + shift < 0) 15 + shift else it + shift }
@@ -32,10 +32,12 @@ fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, 
 }
 
 /**
- * Takes an integer between -24 and 24 and converts
+ * Takes an integer between -12 and 12 and converts
  * it to a pitch value corresponding to 0.5 and 2.0.
  */
 fun Int.toPitch(): Float {
+    val minPitch = -12
+    val maxPitch = 12
     /**
      * Hmm. So, -12 is 0.5f in pitch,
      * + 12 is 2.0f
@@ -45,15 +47,15 @@ fun Int.toPitch(): Float {
      *
      */
     return if (this < 0) {
-        if(this < -24)
+        if(this < minPitch)
             0.5f
         else
-            1f - (1f / (48f / this.absoluteValue.toFloat()))
+            1f - (1f / (maxPitch * 2 / this.absoluteValue.toFloat()))
     } else if(this > 0) {
-        if(this > 24)
+        if(this > maxPitch)
             2f
         else {
-            48f / this.toFloat()
+            maxPitch * 2f / this.toFloat()
         }
     } else {
         1f

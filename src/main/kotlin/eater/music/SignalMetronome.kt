@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.MathUtils.floor
 
 class SignalMetronome(
     val tempo: Float,
-    val chordLengthBars: Float = 2f,
     val instruments: MutableList<IMusicSignalReceiver> = mutableListOf(),
     val chords: MutableList<Chord>) {
     private val timepiece by lazy { GdxAI.getTimepiece() }
@@ -84,21 +83,24 @@ class SignalMetronome(
             }
         }
     }
+    var currentChord = chords.first()
 
     fun update() {
         /**
          * we send a signal every sixteenth containing the info needed,
          * I guess
          */
-        updateIntensity()
+        //updateIntensity()
         if (last16th != this16th)
             lastTimeBars = timeBars
 
 
-        val chordTimeBars = timeBars % chordLengthBars
-        var currentChord = chords.firstOrNull { it.barPos > chordTimeBars }
-        if(currentChord == null)
-            currentChord = chords.first()
+        val chordTimeBars = timeBars % chords.size
+        var nextChord = chords.firstOrNull { it.barPos > chordTimeBars }
+        if(nextChord == null)
+            nextChord = chords.first()
+
+        currentChord = nextChord
 
         val wholeBar = floor(timeBars)
         val barFraction = this16th / 16f
