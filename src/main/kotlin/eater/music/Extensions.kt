@@ -2,6 +2,7 @@ package eater.music
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.MathUtils.norm
 import de.pottgames.tuningfork.WaveLoader
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -55,7 +56,7 @@ fun Int.toPitch(): Float {
         if(this > maxPitch)
             2f
         else {
-            maxPitch * 2f / this.toFloat()
+            1f + norm(0f, 12f, this.toFloat())
         }
     } else {
         1f

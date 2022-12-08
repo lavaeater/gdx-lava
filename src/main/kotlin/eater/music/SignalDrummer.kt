@@ -1,10 +1,10 @@
 package eater.music
 
 class SignalDrummer(name: String, sampler: Sampler, val notes: MutableMap<Int, Note>) : Instrument(name, sampler) {
-    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
+    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, conductorIntensity: Float) {
         if (sixteenth == last16th)
             return
-        val minIntensity = 1f - intensity
+        val minIntensity = 1f - conductorIntensity
         last16th = sixteenth
         val note = notes[sixteenth]
         if (note != null && note.strength >= minIntensity)
