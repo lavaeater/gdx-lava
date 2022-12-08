@@ -1,0 +1,62 @@
+package eater.music
+
+import com.badlogic.gdx.math.MathUtils.*
+import ktx.math.random
+
+class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val repeats: Int = 1) :TonalMusician(name, sampler) {
+
+    private var recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
+    private var repeatBar = -999f
+    private val randomRange = 0f..1f
+
+
+    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
+        if(sixteenth == last16th)
+            return
+
+        val wholeBar = floor(timeBars)
+        val recordingIdx = sixteenth + wholeBar % recordBars * 16
+
+        val repeatEndBars = repeatBar + repeats * recordBars
+
+        if (timeBars < repeatEndBars) {
+            val note = recordedMelody[recordingIdx]
+            if (note.realNote) {
+                playNote(note.midiNoteDiff, hitTime)
+            }
+        } else {
+            if (recordingIdx == 0) {
+                recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
+            }
+            var note: Note? = null
+
+            // always play a strong note on the downbeat
+            if (sixteenth == 0) {
+                note = getScaleNote(1.0f)
+            } else if (sixteenth % 4 == 0) {
+                if (randomRange.random() < intensity) {
+                    note = getScaleNote(0.5f)
+                }
+            } else if (sixteenth % 2 === 0) {
+                if (randomRange.random() < intensity - 0.25f) {
+                    note = getScaleNote(0.25f)
+                }
+            } else if (randomRange.random() < intensity - 0.5f) {
+                note = getScaleNote(0.0f)
+            }
+
+            // record and play the note
+            recordedMelody[recordingIdx] = note ?: recordedMelody[recordingIdx]
+
+            if (note != null) {
+                playNote(note.midiNoteDiff, hitTime)
+            }
+
+            // if we're done recording, start repeating
+            val lastRecordingIdx = recordBars * 16 - 1
+            if (recordingIdx >= lastRecordingIdx) {
+                repeatBar = kotlin.math.ceil(timeBars)
+            }
+        }
+    }
+}

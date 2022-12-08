@@ -6,7 +6,6 @@ class ChimeyChimeChime(name: String, sampler: Sampler, var mode: ArpeggioMode) :
     private var sequenceIndex = 0
 //    var nextPlayTime = 0f
     override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
-      //  if(hitTime > nextPlayTime) {
             val stepSize = if (intensity < 0.4f) 4 else if (intensity < 0.7f) 8 else 16
             val lastStep = MathUtils.floor(lastTimeBars * stepSize) % stepSize
             val thisStep = MathUtils.floor(timeBars * stepSize) % stepSize
@@ -40,7 +39,6 @@ class ChimeyChimeChime(name: String, sampler: Sampler, var mode: ArpeggioMode) :
              */
 
             sampler.play(chord.chordNotes[chordNoteIndex].midiNoteDiff, noteTime)
-     //       nextPlayTime = hitTime + sampler.duration
 //        }
 
     }

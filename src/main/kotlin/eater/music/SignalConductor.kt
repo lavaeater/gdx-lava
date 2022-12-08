@@ -90,24 +90,26 @@ class SignalConductor(
          * we send a signal every sixteenth containing the info needed,
          * I guess
          */
-        //updateIntensity()
-        if (last16th != this16th)
-            lastTimeBars = timeBars
+        if(playing) {
+            //updateIntensity()
+            if (last16th != this16th)
+                lastTimeBars = timeBars
 
 
-        val chordTimeBars = timeBars % chords.size
-        var nextChord = chords.firstOrNull { it.barPos > chordTimeBars }
-        if(nextChord == null)
-            nextChord = chords.first()
+            val chordTimeBars = timeBars % chords.size
+            var nextChord = chords.firstOrNull { it.barPos > chordTimeBars }
+            if (nextChord == null)
+                nextChord = chords.first()
 
-        currentChord = nextChord
+            currentChord = nextChord
 
-        val wholeBar = floor(timeBars)
-        val barFraction = this16th / 16f
-        val hitTime = barsToEngineTime(wholeBar + barFraction)
-        for (receiver in instruments) {
-            receiver.setChord(currentChord)
-            receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
+            val wholeBar = floor(timeBars)
+            val barFraction = this16th / 16f
+            val hitTime = barsToEngineTime(wholeBar + barFraction)
+            for (receiver in instruments) {
+                receiver.setChord(currentChord)
+                receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
+            }
         }
     }
 }

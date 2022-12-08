@@ -1,7 +1,7 @@
 package eater.music
 
 //, val scaleNotes: List<Note>
-data class Chord(val barPos: Float, val chordNotes: List<Note>) {
+data class Chord(val barPos: Float, val chordNotes: List<Note>, val scaleNotes: List<Note>) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
