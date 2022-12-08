@@ -3,13 +3,19 @@ package eater.music
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.MathUtils.norm
+import de.pottgames.tuningfork.Audio
 import de.pottgames.tuningfork.WaveLoader
+import eater.injection.InjectionContext.Companion.inject
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.math.absoluteValue
 
 fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
     entries.forEach { newMap[it.value] = it.key }
+}
+
+fun audio(): Audio {
+    return inject()
 }
 
 fun loadSampler(name: String, instrument: String, baseDir:String): Sampler {
@@ -20,7 +26,7 @@ fun loadSampler(name: String, instrument: String, baseDir:String): Sampler {
     }
     val instruments = InstrumentsCache.instruments[instrument]!!
     val soundFile = instruments.first { it.name == name }
-    return Sampler(WaveLoader.load(Gdx.files.external("$baseDir/${soundFile.path}")))
+    return Sampler(audio().obtainSource(WaveLoader.load(Gdx.files.external("$baseDir/${soundFile.path}"))))
 }
 
 fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, strengthRange: IntRange = (3..8)): MutableMap<Int, Note> {

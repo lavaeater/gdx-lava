@@ -1,5 +1,5 @@
 package eater.music
 
-import de.pottgames.tuningfork.SoundBuffer
+import de.pottgames.tuningfork.SoundSource
 
-data class PlayableNote(val soundBuffer: SoundBuffer, val pitch: Float, val targetTime: Float)
+data class PlayableNote(val soundSource: SoundSource, val pitch: Float, val targetTime: Float)
