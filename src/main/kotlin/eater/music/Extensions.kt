@@ -7,7 +7,6 @@ import de.pottgames.tuningfork.WaveLoader
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.math.absoluteValue
-import kotlin.math.pow
 
 fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
     entries.forEach { newMap[it.value] = it.key }
@@ -15,7 +14,7 @@ fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
 
 fun loadSampler(name: String, instrument: String, baseDir:String): Sampler {
     if(!InstrumentsCache.instruments.containsKey(instrument)) {
-        val json = Gdx.files.local(instrument).readString()
+        val json = Gdx.files.local("instruments/$instrument").readString()
         val instruments = Json.decodeFromString<List<ListItem.SoundFile>>(json)
         InstrumentsCache.instruments[instrument] = instruments
     }
