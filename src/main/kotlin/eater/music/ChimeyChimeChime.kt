@@ -2,7 +2,7 @@ package eater.music
 
 import com.badlogic.gdx.math.MathUtils
 
-class ChimeyChimeChime(name: String, sampler: Sampler, var mode: ArpeggioMode) : TonalInstrument(name, sampler) {
+class ChimeyChimeChime(name: String, sampler: Sampler, var mode: ArpeggioMode) : TonalMusician(name, sampler) {
     private var sequenceIndex = 0
 //    var nextPlayTime = 0f
     override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {

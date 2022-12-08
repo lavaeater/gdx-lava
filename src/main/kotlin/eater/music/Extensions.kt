@@ -13,7 +13,7 @@ fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
     entries.forEach { newMap[it.value] = it.key }
 }
 
-fun loadSampler(name: String, instrument: String): Sampler {
+fun loadSampler(name: String, instrument: String, baseDir:String): Sampler {
     if(!InstrumentsCache.instruments.containsKey(instrument)) {
         val json = Gdx.files.local(instrument).readString()
         val instruments = Json.decodeFromString<List<ListItem.SoundFile>>(json)
@@ -21,7 +21,7 @@ fun loadSampler(name: String, instrument: String): Sampler {
     }
     val instruments = InstrumentsCache.instruments[instrument]!!
     val soundFile = instruments.first { it.name == name }
-    return Sampler(WaveLoader.load(Gdx.files.external(soundFile.path)))
+    return Sampler(WaveLoader.load(Gdx.files.external("$baseDir/${soundFile.path}")))
 }
 
 fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, strengthRange: IntRange = (3..8)): MutableMap<Int, Note> {

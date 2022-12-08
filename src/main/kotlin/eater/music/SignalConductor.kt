@@ -3,7 +3,7 @@ package eater.music
 import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.math.MathUtils.floor
 
-class SignalMetronome(
+class SignalConductor(
     val tempo: Float,
     val instruments: MutableList<IMusicSignalReceiver> = mutableListOf(),
     val chords: MutableList<Chord>) {

@@ -3,7 +3,7 @@ package eater.music
 import com.badlogic.gdx.math.MathUtils
 import ktx.math.random
 
-class SignalBass(name: String, sampler: Sampler) : TonalInstrument(name, sampler) {
+class SignalBass(name: String, sampler: Sampler) : TonalMusician(name, sampler) {
     override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
         if (last16th == sixteenth)
             return
