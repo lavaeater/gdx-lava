@@ -15,6 +15,7 @@ class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val 
             return
 
         val wholeBar = floor(timeBars)
+        haveOrWillHavePlayed[sixteenth] = false
         val recordingIdx = sixteenth + wholeBar % recordBars * 16
 
         val repeatEndBars = repeatBar + repeats * recordBars
@@ -22,6 +23,7 @@ class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val 
         if (timeBars < repeatEndBars) {
             val note = recordedMelody[recordingIdx]
             if (note.realNote) {
+                haveOrWillHavePlayed[sixteenth] = true
                 playNote(note.midiNoteDiff, hitTime)
             }
         } else {
@@ -49,6 +51,7 @@ class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val 
             recordedMelody[recordingIdx] = note ?: recordedMelody[recordingIdx]
 
             if (note != null) {
+                haveOrWillHavePlayed[sixteenth] = true
                 playNote(note.midiNoteDiff, hitTime)
             }
 

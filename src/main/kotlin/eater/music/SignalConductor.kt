@@ -56,7 +56,7 @@ class SignalConductor(
     private val maxIntensity = 1f
 
     var lastBar = 0
-    var intensity = 0.2f
+    var baseIntensity = 0.2f
     val baseChange = 0.005f
     var change = 0.005f
     var chanceOfChange = 45
@@ -72,14 +72,14 @@ class SignalConductor(
         }
 
         if(randomValue < chanceOfChange) {
-            intensity += change
-            if (intensity > maxIntensity) {
+            baseIntensity += change
+            if (baseIntensity > maxIntensity) {
                 change = -change
-                intensity = maxIntensity
+                baseIntensity = maxIntensity
             }
-            if (intensity < minIntensity) {
+            if (baseIntensity < minIntensity) {
                 change = -change
-                intensity = minIntensity
+                baseIntensity = minIntensity
             }
         }
     }
@@ -108,7 +108,7 @@ class SignalConductor(
             val hitTime = barsToEngineTime(wholeBar + barFraction)
             for (receiver in instruments) {
                 receiver.setChord(currentChord)
-                receiver.signal(thisBar, this16th, timeBars, hitTime, intensity)
+                receiver.signal(thisBar, this16th, timeBars, hitTime, baseIntensity)
             }
         }
     }
