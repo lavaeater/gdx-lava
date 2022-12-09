@@ -9,6 +9,7 @@ import eater.injection.InjectionContext.Companion.inject
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.math.absoluteValue
+import kotlin.math.pow
 
 fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
     entries.forEach { newMap[it.value] = it.key }
@@ -56,14 +57,25 @@ fun Int.toPitch(): Float {
         if(this < minPitch)
             0.5f
         else
-            1f - (1f / (maxPitch * 2 / this.absoluteValue.toFloat()))
+            this.fromMidiToPitch()
+            //1f - (1f / (maxPitch * 2 / this.absoluteValue.toFloat()))
     } else if(this > 0) {
         if(this > maxPitch)
             2f
         else {
-            1f + norm(0f, 12f, this.toFloat())
+            this.fromMidiToPitch()
+//            1f + norm(0f, 12f, this.toFloat())
         }
     } else {
         1f
     }
+}
+
+fun Int.fromMidiToPitch(): Float {
+    /**
+     * The midi reference note is apparently 69, not 60...
+     */
+
+    val f = 2f.pow(this.toFloat()/12f) //This should give us a factor, right?
+    return f
 }

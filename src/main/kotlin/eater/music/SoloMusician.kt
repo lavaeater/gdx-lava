@@ -1,14 +1,20 @@
 package eater.music
 
 import com.badlogic.gdx.math.MathUtils.*
+import eater.core.selectedItemListOf
 import ktx.math.random
 
-class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val repeats: Int = 1) :TonalMusician(name, sampler) {
+class SoloMusician(name: String, inputSamplers: List<Sampler>, val recordBars: Int = 4, val repeats: Int = 1) :TonalMusician(name, inputSamplers.first()) {
 
     private var recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
     private var repeatBar = -999f
     private val randomRange = 0f..1f
 
+    private val samplers = selectedItemListOf(*inputSamplers.toTypedArray())
+
+    override fun playNote(midiNoteDiff: Int, hitTime: Float) {
+        samplers.selectedItem.play(midiNoteDiff, hitTime)
+    }
 
     override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
         if(sixteenth == last16th)
@@ -28,6 +34,7 @@ class SoloMusician(name: String, sampler: Sampler, val recordBars: Int = 4, val 
             }
         } else {
             if (recordingIdx == 0) {
+                samplers.nextItem()
                 recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
             }
             var note: Note? = null
