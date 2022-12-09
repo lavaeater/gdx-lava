@@ -79,3 +79,12 @@ fun Int.fromMidiToPitch(): Float {
     val f = 2f.pow(this.toFloat()/12f) //This should give us a factor, right?
     return f
 }
+
+
+fun IntRange.randomToFloat(factor: Float): Float {
+    return this.random() / factor
+}
+
+fun Int.normalizedRandom(): Float {
+    return (0..this).randomToFloat(this.toFloat())
+}

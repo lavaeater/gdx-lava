@@ -4,8 +4,8 @@ abstract class TonalMusician(name: String, sampler: Sampler) : Musician(name, sa
 
     val haveOrWillHavePlayed = mutableMapOf<Int, Boolean>()
 
-    override fun willPlay(sixteenth: Int, intensity: Float): Boolean {
-        return if(haveOrWillHavePlayed.contains(sixteenth)) haveOrWillHavePlayed[sixteenth]!! else false
+    override fun willPlay(noteIndex: Int, intensity: Float): Boolean {
+        return if(haveOrWillHavePlayed.contains(noteIndex)) haveOrWillHavePlayed[noteIndex]!! else false
     }
 
     open fun getNote(notes: List<Note>, minStrength: Float): Note? {

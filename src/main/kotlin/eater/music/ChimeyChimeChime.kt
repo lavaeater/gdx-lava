@@ -6,15 +6,15 @@ class ChimeyChimeChime(name: String, sampler: Sampler, var mode: ArpeggioMode) :
     private var sequenceIndex = 0
 
     //    var nextPlayTime = 0f
-    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
-        val stepSize = if (intensity < 0.4f) 4 else if (intensity < 0.7f) 8 else 16
+    override fun play(beat: Int, noteIndex: Int, timeBars: Float, hitTime: Float, globalIntensity: Float) {
+        val stepSize = if (globalIntensity < 0.4f) (notesPerMeasure / beatsPerMeasure).toInt() else if (globalIntensity < 0.7f) (notesPerMeasure / (beatsPerMeasure / 2)).toInt() else notesPerMeasure
         val lastStep = MathUtils.floor(lastTimeBars * stepSize) % stepSize
         val thisStep = MathUtils.floor(timeBars * stepSize) % stepSize
         val wholeBar = MathUtils.floor(timeBars)
-        haveOrWillHavePlayed[sixteenth] = false
+        haveOrWillHavePlayed[noteIndex] = false
         if (lastStep == thisStep)
             return
-        haveOrWillHavePlayed[sixteenth] = true
+        haveOrWillHavePlayed[noteIndex] = true
         val barFraction = thisStep.toFloat() / stepSize.toFloat()
         val noteTime = wholeBar + barFraction
 

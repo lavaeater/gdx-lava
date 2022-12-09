@@ -4,48 +4,48 @@ import com.badlogic.gdx.math.MathUtils
 import ktx.math.random
 
 class SignalBass(name: String, sampler: Sampler) : TonalMusician(name, sampler) {
-    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
-        if (last16th == sixteenth)
+    override fun play(beat: Int, noteIndex: Int, timeBars: Float, hitTime: Float, globalIntensity: Float) {
+        if (lastNoteIndex == noteIndex)
             return
 
         val wholeBar = MathUtils.floor(timeBars)
-        haveOrWillHavePlayed[sixteenth] = false
-        val barFraction = sixteenth / 16f
+        haveOrWillHavePlayed[noteIndex] = false
+        val barFraction = noteIndex / notesPerMeasure.toFloat()
         val noteTime = wholeBar + barFraction
-        if (sixteenth == 0) {
+        if (noteIndex == 0) {
             val n = getChordNote(1f)
             if (n != null) {
                 playNote(n.midiNoteDiff, noteTime)
-                haveOrWillHavePlayed[sixteenth] = true
+                haveOrWillHavePlayed[noteIndex] = true
                 return
             }
         }
 
-        if (sixteenth % 4 == 0) {
-            if ((0f..1f).random() <= intensity) {
+        if (noteIndex % beatsPerMeasure.toInt() == 0) {
+            if ((0f..1f).random() <= globalIntensity) {
                 val n = getChordNote(0.5f)
                 if (n != null) {
-                    haveOrWillHavePlayed[sixteenth] = true
+                    haveOrWillHavePlayed[noteIndex] = true
                     playNote(n.midiNoteDiff, noteTime)
                     return
                 }
             }
         }
 
-        if (sixteenth % 2 == 0) {
-            if ((0f..1f).random() <= intensity - 0.25f) {
+        if (noteIndex % (beatsPerMeasure / 2).toInt() == 0) {
+            if ((0f..1f).random() <= globalIntensity - 0.25f) {
                 val n = getChordNote(0.25f)
                 if (n != null) {
-                    haveOrWillHavePlayed[sixteenth] = true
+                    haveOrWillHavePlayed[noteIndex] = true
                     playNote(n.midiNoteDiff, noteTime)
                     return
                 }
             }
         }
-        if ((0f..1f).random() <= intensity - 0.5f) {
+        if ((0f..1f).random() <= globalIntensity - 0.5f) {
             val n = getChordNote(0f)
             if (n != null) {
-                haveOrWillHavePlayed[sixteenth] = true
+                haveOrWillHavePlayed[noteIndex] = true
                 playNote(n.midiNoteDiff, noteTime)
             }
         }

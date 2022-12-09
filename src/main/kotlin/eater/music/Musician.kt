@@ -12,16 +12,24 @@ abstract class Musician(override val receiverName: String, protected val sampler
         this.chord = chord
     }
 
-    var last16th = 0
+    var lastNoteIndex = 0
     var lastTimeBars = 0f
-    override fun signal(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, baseIntensity: Float) {
-        last16th = MathUtils.floor(lastTimeBars * 16f) % 16
-        play(beat, sixteenth, timeBars, hitTime, baseIntensity)
+    protected var beatsPerMeasure = 4f
+    protected var beatDuration = 4f
+    val notesPerMeasure get() = (beatsPerMeasure * beatDuration).toInt() //16 in our case
+    override fun signal(beat: Int, thisNoteIndex: Int, timeBars: Float, hitTime: Float, baseIntensity: Float) {
+        lastNoteIndex = MathUtils.floor(lastTimeBars * notesPerMeasure) % notesPerMeasure
+        play(beat, thisNoteIndex, timeBars, hitTime, baseIntensity)
         lastTimeBars = timeBars
     }
 
-    abstract fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float)
+    override fun updateSignature(beatsPerMeasure: Float, beatDuration: Float) {
+        this.beatsPerMeasure = beatsPerMeasure
+        this.beatDuration = beatDuration
+    }
 
-    abstract fun willPlay(sixteenth: Int, intensity: Float): Boolean
+    abstract fun play(beat: Int, noteIndex: Int, timeBars: Float, hitTime: Float, globalIntensity: Float)
+
+    abstract fun willPlay(noteIndex: Int, intensity: Float): Boolean
 }
 

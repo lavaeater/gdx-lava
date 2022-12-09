@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.MathUtils.*
 import eater.core.selectedItemListOf
 import ktx.math.random
 
-class SoloMusician(name: String, inputSamplers: List<Sampler>, val recordBars: Int = 4, val repeats: Int = 1) :TonalMusician(name, inputSamplers.first()) {
+class SoloMusician(name: String, inputSamplers: List<Sampler>, private val recordBars: Int = 4, private val repeats: Int = 1) :TonalMusician(name, inputSamplers.first()) {
 
-    private var recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
+    private var recordedMelody = Array(recordBars * notesPerMeasure) {Note(0, 1f, false)}
     private var repeatBar = -999f
     private val randomRange = 0f..1f
 
@@ -16,41 +16,46 @@ class SoloMusician(name: String, inputSamplers: List<Sampler>, val recordBars: I
         samplers.selectedItem.play(midiNoteDiff, hitTime)
     }
 
-    override fun play(beat: Int, sixteenth: Int, timeBars: Float, hitTime: Float, intensity: Float) {
-        if(sixteenth == last16th)
+    override fun updateSignature(beatsPerMeasure: Float, beatDuration: Float) {
+        super.updateSignature(beatsPerMeasure, beatDuration)
+        recordedMelody = Array(recordBars * notesPerMeasure) {Note(0, 1f, false)}
+    }
+
+    override fun play(beat: Int, noteIndex: Int, timeBars: Float, hitTime: Float, globalIntensity: Float) {
+        if(noteIndex == lastNoteIndex)
             return
 
         val wholeBar = floor(timeBars)
-        haveOrWillHavePlayed[sixteenth] = false
-        val recordingIdx = sixteenth + wholeBar % recordBars * 16
+        haveOrWillHavePlayed[noteIndex] = false
+        val recordingIdx = noteIndex + wholeBar % recordBars * notesPerMeasure
 
         val repeatEndBars = repeatBar + repeats * recordBars
 
         if (timeBars < repeatEndBars) {
             val note = recordedMelody[recordingIdx]
             if (note.realNote) {
-                haveOrWillHavePlayed[sixteenth] = true
+                haveOrWillHavePlayed[noteIndex] = true
                 playNote(note.midiNoteDiff, hitTime)
             }
         } else {
             if (recordingIdx == 0) {
                 samplers.nextItem()
-                recordedMelody = Array(recordBars * 16) {Note(0, 1f, false)}
+                recordedMelody = Array(recordBars * notesPerMeasure) {Note(0, 1f, false)}
             }
             var note: Note? = null
 
             // always play a strong note on the downbeat
-            if (sixteenth == 0) {
+            if (noteIndex == 0) {
                 note = getScaleNote(1.0f)
-            } else if (sixteenth % 4 == 0) {
-                if (randomRange.random() < intensity) {
+            } else if (noteIndex % beatsPerMeasure.toInt() == 0) {
+                if (randomRange.random() < globalIntensity) {
                     note = getScaleNote(0.5f)
                 }
-            } else if (sixteenth % 2 === 0) {
-                if (randomRange.random() < intensity - 0.25f) {
+            } else if (noteIndex % (beatsPerMeasure / 2).toInt() == 0) {
+                if (randomRange.random() < globalIntensity - 0.25f) {
                     note = getScaleNote(0.25f)
                 }
-            } else if (randomRange.random() < intensity - 0.5f) {
+            } else if (randomRange.random() < globalIntensity - 0.5f) {
                 note = getScaleNote(0.0f)
             }
 
@@ -58,12 +63,12 @@ class SoloMusician(name: String, inputSamplers: List<Sampler>, val recordBars: I
             recordedMelody[recordingIdx] = note ?: recordedMelody[recordingIdx]
 
             if (note != null) {
-                haveOrWillHavePlayed[sixteenth] = true
+                haveOrWillHavePlayed[noteIndex] = true
                 playNote(note.midiNoteDiff, hitTime)
             }
 
             // if we're done recording, start repeating
-            val lastRecordingIdx = recordBars * 16 - 1
+            val lastRecordingIdx = recordBars * notesPerMeasure - 1
             if (recordingIdx >= lastRecordingIdx) {
                 repeatBar = kotlin.math.ceil(timeBars)
             }
