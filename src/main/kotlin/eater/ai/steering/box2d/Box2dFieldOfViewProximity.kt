@@ -27,7 +27,7 @@ import com.badlogic.gdx.physics.box2d.World
  * @author davebaol
  */
 class Box2dFieldOfViewProximity(owner: Steerable<Vector2>, world: World, detectionRadius: Float, angle: Float) :
-    Box2dSquareAABBProximity(owner, world!!, detectionRadius) {
+    Box2dSquareAABBProximity(owner, world, detectionRadius) {
     var angle = angle
         get() = field
         set(value) {

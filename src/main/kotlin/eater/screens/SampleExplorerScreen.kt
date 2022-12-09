@@ -139,7 +139,7 @@ class SampleExplorerScreen(game: MainGame) : BasicScreen(game, CommandMap("MyCom
 
         if (soundWorks) {
             val sound = sounds[soundFile]!!
-            audio.play(sound, 1f, 1f)
+            sound.play(1f,1f)
         } else {
             currentList.items.removeValue(currentList.selected, true)
         }
