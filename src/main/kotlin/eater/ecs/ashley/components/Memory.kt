@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 import kotlin.reflect.KType
 
-interface GeneralMemory
-
 class Memory : Component, Pool.Poolable {
     val seenEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()
     val closeEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()

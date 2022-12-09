@@ -1,4 +1,4 @@
-package eater.core
+package eater.screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import eater.core.MainGame
 import eater.injection.InjectionContext.Companion.inject
 import eater.input.CommandMap
 import eater.input.KeyPress
