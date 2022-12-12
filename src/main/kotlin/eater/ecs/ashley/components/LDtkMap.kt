@@ -11,7 +11,7 @@ import eater.core.world
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class Map: Component, Pool.Poolable {
+class LDtkMap: Component, Pool.Poolable {
     lateinit var mapBounds: Rectangle
     val mapOrigin = vec2()
     var mapScale = 1f
@@ -33,11 +33,11 @@ class Map: Component, Pool.Poolable {
     }
 
     companion object {
-        val mapper = mapperFor<Map>()
+        val mapper = mapperFor<LDtkMap>()
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
-        fun get(entity: Entity): Map {
+        fun get(entity: Entity): LDtkMap {
             return mapper.get(entity)
         }
     }
