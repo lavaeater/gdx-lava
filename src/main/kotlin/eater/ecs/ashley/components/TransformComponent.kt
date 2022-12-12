@@ -15,10 +15,19 @@ class TransformComponent : Component, Pool.Poolable {
     val position: Vector2 = vec2()
     var height = 4f
     var verticalSpeed = 0f
-    var angleDegrees = 0f
+    val direction = vec2(1f, 0f) //Unit vector pointing towards Y, for no reason of course
+
+    var angleDegrees: Float
+        set(value) {
+            direction.setAngleDeg(value)
+        }
+        get() {
+            return direction.angleDeg()
+        }
+
     fun update(body: Body) {
         position.set(body.position)
-        angleDegrees = body.angle * MathUtils.radiansToDegrees
+        angleDegrees = body.angle * MathUtils.radiansToDegrees + 90f
     }
 
     override fun reset() {

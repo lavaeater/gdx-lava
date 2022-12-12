@@ -13,7 +13,7 @@ class BodyControlSystem : IteratingSystem(allOf(Box2d::class, BodyControl::class
         val body = Box2d.get(entity).body
         val control = BodyControl.get(entity)
 
-        body.applyForce(control.moveDirection * control.currentForce, body.worldCenter, true)
+        body.applyForce(control.directionVector * control.currentForce, body.worldCenter, true)
 
         val forward = body.linearVelocity
         val speed = forward.len()

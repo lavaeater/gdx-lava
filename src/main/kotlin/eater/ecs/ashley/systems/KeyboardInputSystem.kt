@@ -14,7 +14,7 @@ import ktx.ashley.exclude
 import ktx.math.vec2
 import ktx.math.vec3
 
-class KeyboardInputSystem(private val camera: OrthographicCamera) :
+class KeyboardInputSystem(private val camera: OrthographicCamera, private val invertX: Boolean, private val invertY: Boolean) :
     IteratingSystem(
         allOf(
             BodyControl::class,
@@ -28,8 +28,8 @@ class KeyboardInputSystem(private val camera: OrthographicCamera) :
 
     val walkDirection = vec2()
         get() {
-            field.x = if(Gdx.input.isKeyPressed(Keys.A)) -1f else if(Gdx.input.isKeyPressed(Keys.D)) 1f else 0f
-            field.y = if(Gdx.input.isKeyPressed(Keys.W)) 1f else if(Gdx.input.isKeyPressed(Keys.S)) -1f else 0f
+            field.x = (if(Gdx.input.isKeyPressed(Keys.A)) -1f else if(Gdx.input.isKeyPressed(Keys.D)) 1f else 0f) * if(invertX) -1 else 1
+            field.y = (if(Gdx.input.isKeyPressed(Keys.W)) 1f else if(Gdx.input.isKeyPressed(Keys.S)) -1f else 0f) * if(invertY) -1 else 1
             return field.nor()
             }
 
@@ -38,7 +38,7 @@ class KeyboardInputSystem(private val camera: OrthographicCamera) :
         val bodyControl = BodyControl.get(entity)
         val transform = TransformComponent.get(entity)
         bodyControl.aimDirection.set(mouseWorld).sub(transform.position).nor()
-        bodyControl.moveDirection.set(walkDirection)
+        bodyControl.directionVector.set(walkDirection)
         bodyControl.currentForce = bodyControl.maxForce * walkDirection.len()
 
     }
