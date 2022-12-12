@@ -26,7 +26,7 @@ import ktx.collections.toGdxArray
 import ktx.scene2d.*
 import space.earlygrey.shapedrawer.ShapeDrawer
 
-class SampleExplorerScreen(game: MainGame) : BasicScreen(game, CommandMap("MyCommands")) {
+class SampleExplorerScreen(game: MainGame) : BasicScreen(game) {
 
     private val sampleBaseDir = "projects/games/music-samples-explorer"
     private fun getSamples(): ListItem.Directory {
