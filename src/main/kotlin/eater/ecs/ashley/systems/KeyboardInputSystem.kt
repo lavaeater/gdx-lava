@@ -31,7 +31,7 @@ class KeyboardInputSystem(private val camera: OrthographicCamera) :
             field.x = if(Gdx.input.isKeyPressed(Keys.A)) -1f else if(Gdx.input.isKeyPressed(Keys.D)) 1f else 0f
             field.y = if(Gdx.input.isKeyPressed(Keys.W)) 1f else if(Gdx.input.isKeyPressed(Keys.S)) -1f else 0f
             return field.nor()
-        }
+            }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         unprojectMouse()

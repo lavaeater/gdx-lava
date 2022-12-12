@@ -2,9 +2,19 @@ package eater.ecs.ashley.components
 
 import com.badlogic.gdx.math.MathUtils
 
+
+abstract class PropName(val name: String)
+
+sealed class CoolProp(val propName: PropName) {
+    class FloatProperty(name: PropName, var current: Float = 100f, val min: Float = 0f, val max: Float = 100f): CoolProp(name) {
+            val normalizedValue: Float
+                get() = MathUtils.norm(min, max, MathUtils.clamp(current, 0f, max))
+    }
+}
+
 sealed class Prop(val name: String) {
 
-    sealed class FloatProp(name: String, var current: Float = 100f, val min: Float = 0f, val max: Float = 100f): Prop(name) {
+    open class FloatProp(name: String, var current: Float = 100f, val min: Float = 0f, val max: Float = 100f): Prop(name) {
         val normalizedValue: Float
             get() = MathUtils.norm(min, max, MathUtils.clamp(current, 0f, max))
         class Health(current: Float = 100f,min: Float = 0f, max: Float = 100f) : FloatProp("Health", current, min, max)

@@ -22,7 +22,7 @@ import ktx.actors.stage
 import ktx.scene2d.*
 import space.earlygrey.shapedrawer.ShapeDrawer
 
-class MusicVisualizerScreen(game: MainGame) : BasicScreen(game, CommandMap("MyCommands")) {
+class MusicVisualizerScreen(game: MainGame) : BasicScreen(game) {
 
     private val sampleBaseDir = "projects/games/music-samples-explorer"
 
