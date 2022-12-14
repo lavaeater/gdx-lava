@@ -17,6 +17,7 @@ import eater.extensions.boundLabel
 import eater.extensions.boundProgressBar
 import eater.injection.InjectionContext
 import eater.input.CommandMap
+import eater.input.command
 import eater.music.*
 import ktx.actors.stage
 import ktx.scene2d.*
@@ -134,24 +135,24 @@ class MusicVisualizerScreen(game: MainGame) : BasicScreen(game) {
     private val timePiece by lazy { GdxAI.getTimepiece() }
 
     private fun setUpCommands() {
-        commandMap.setUp(Input.Keys.SPACE, "Toggle signalplayer") {
-            if (signalConductor.notPlaying)
-                signalConductor.play()
-            else
-                signalConductor.stop()
-        }
+        commandMap = command("MusicVisualizer") {
+            setUp(Input.Keys.SPACE, "Toggle signalplayer") {
+                if (signalConductor.notPlaying)
+                    signalConductor.play()
+                else
+                    signalConductor.stop()
+            }
 
-        commandMap.setUp(Input.Keys.RIGHT, "Intensity UP") {
-            signalConductor.baseIntensity = clamp(signalConductor.baseIntensity + 0.1f, 0f, 1f)
-        }
-        commandMap.setUp(Input.Keys.LEFT, "Intensity DOWN") {
-            signalConductor.baseIntensity = clamp(signalConductor.baseIntensity - 0.1f, 0f, 1f)
+            commandMap.setUp(Input.Keys.RIGHT, "Intensity UP") {
+                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity + 0.1f, 0f, 1f)
+            }
+            commandMap.setUp(Input.Keys.LEFT, "Intensity DOWN") {
+                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity - 0.1f, 0f, 1f)
+            }
         }
     }
 
     override fun show() {
-
-
         Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("ui/uiskin.json"))
         super.show()
         if (::stage.isInitialized) {

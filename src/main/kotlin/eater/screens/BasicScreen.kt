@@ -16,7 +16,7 @@ import ktx.app.KtxScreen
 
 abstract class BasicScreen(val mainGame: MainGame) : KtxScreen, KtxInputAdapter {
 
-    open val commandMap: CommandMap = CommandMap("Default")
+    protected lateinit var commandMap: CommandMap
     open val camera: OrthographicCamera by lazy { inject() }
     open val viewport: Viewport by lazy { inject<ExtendViewport>() }
     open val batch: PolygonSpriteBatch by lazy { inject() }
