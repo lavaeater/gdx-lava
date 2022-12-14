@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class NewProp: Component, Pool.Poolable {
+class ChristmasPropComponent: Component, Pool.Poolable {
     val props = mutableMapOf<PropName, CoolProp>()
 
     fun getProp(propName: PropName): CoolProp {
@@ -17,11 +17,11 @@ class NewProp: Component, Pool.Poolable {
     }
 
     companion object {
-        val mapper = mapperFor<NewProp>()
+        val mapper = mapperFor<ChristmasPropComponent>()
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
-        fun get(entity: Entity): NewProp {
+        fun get(entity: Entity): ChristmasPropComponent {
             return mapper.get(entity)
         }
     }
