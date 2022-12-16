@@ -137,11 +137,11 @@ open class Box2dSteerable(
 			 */
 
             // Apply steering acceleration
-            applySteering(steeringOutput, deltaTime)
+            applySteering(deltaTime)
         }
     }
 
-    private fun applySteering(steering: SteeringAcceleration<Vector2>?, deltaTime: Float) {
+    private fun applySteering(deltaTime: Float) {
         var anyAccelerations = false
 
         // Update position and linear velocity.

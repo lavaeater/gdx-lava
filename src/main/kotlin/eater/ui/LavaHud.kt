@@ -16,7 +16,5 @@ abstract class LavaHud(
     open fun render(delta: Float) {
         stage.act(delta)
         stage.draw()
-
-
     }
 }

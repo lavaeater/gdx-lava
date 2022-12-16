@@ -1,25 +1,35 @@
 package eater.music
 
-import com.badlogic.gdx.math.MathUtils.floor
-import ktx.math.random
+import com.badlogic.gdx.math.MathUtils
 
-abstract class Musician(protected val metronome: Metronome, var intensity: Float) {
-    lateinit var currentChord: Chord
+abstract class Musician(override val receiverName: String, protected val sampler: Sampler):
+    IMusicSignalReceiver {
+
+    lateinit var chord: Chord
         private set
+
+    override fun setChord(chord: Chord) {
+        this.chord = chord
+    }
+
+    var lastNoteIndex = 0
     var lastTimeBars = 0f
-    fun setChord(chord: Chord) {
-        currentChord = chord
+    protected var beatsPerMeasure = 4f
+    protected var beatDuration = 4f
+    val notesPerMeasure get() = (beatsPerMeasure * beatDuration).toInt() //16 in our case
+    override fun signal(beat: Int, thisNoteIndex: Int, timeBars: Float, hitTime: Float, baseIntensity: Float) {
+        lastNoteIndex = MathUtils.floor(lastTimeBars * notesPerMeasure) % notesPerMeasure
+        play(beat, thisNoteIndex, timeBars, hitTime, baseIntensity)
+        lastTimeBars = timeBars
     }
 
-    abstract fun updateNotes(timeBars: Float, newIntensity: Float)
-    protected fun getThis16th(timeBars: Float) = floor(timeBars * 16f) % 16
-    protected fun getLast16th() = floor(lastTimeBars * 16f) % 16
-}
-
-class Arpeggiator(sampler: Sampler, metronome: Metronome, intensity: Float) :
-    TonalMusician(sampler, metronome, intensity) {
-    override fun updateNotes(timeBars: Float, newIntensity: Float) {
-        TODO("Not yet implemented")
+    override fun updateSignature(beatsPerMeasure: Float, beatDuration: Float) {
+        this.beatsPerMeasure = beatsPerMeasure
+        this.beatDuration = beatDuration
     }
 
+    abstract fun play(beat: Int, noteIndex: Int, timeBars: Float, hitTime: Float, globalIntensity: Float)
+
+    abstract fun willPlay(noteIndex: Int, intensity: Float): Boolean
 }
+

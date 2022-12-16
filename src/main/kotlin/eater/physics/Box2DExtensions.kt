@@ -49,7 +49,7 @@ fun Body.forwardVelocity(): Vector2 {
 }
 
 fun Entity.body(): Body {
-    return getComponent<Box2d>().body!!
+    return getComponent<Box2d>().body
 }
 
 

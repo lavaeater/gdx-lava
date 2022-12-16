@@ -23,21 +23,20 @@ import com.badlogic.gdx.math.Vector2
  *
  * @autor davebaol
  */
-class Box2dTargetInputProcessor(protected var target: Box2dSteerable) : InputAdapter() {
+open class Box2dTargetInputProcessor(private val target: Box2dSteerable) : InputAdapter() {
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        setTargetPosition(screenX, screenY)
+        setTargetPosition()
         return true
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        setTargetPosition(screenX, screenY)
+        setTargetPosition()
         return true
     }
 
-    protected fun setTargetPosition(screenX: Int, screenY: Int) {
-        var screenY = screenY
+    private fun setTargetPosition() {
         val pos: Vector2 = target.position
-        screenY = Gdx.graphics.getHeight() - screenY
+//        y = Gdx.graphics.getHeight() - y
 //        pos.x = Box2dSteeringTest.pixelsToMeters(screenX)
 //        pos.y = Box2dSteeringTest.pixelsToMeters(screenY)
         target.body.setTransform(pos, target.body.angle)
