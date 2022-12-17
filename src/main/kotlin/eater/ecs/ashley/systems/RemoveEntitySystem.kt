@@ -14,9 +14,11 @@ class RemoveEntitySystem: IteratingSystem(allOf(Remove::class).get()) {
     override fun update(deltaTime: Float) {
         super.update(deltaTime)
         for(entity in toRemove) {
-            val body = Box2d.get(entity).body
-            entity.remove<Box2d>()
-            world.destroyBody(body)
+            if(Box2d.has(entity)) {
+                val body = Box2d.get(entity).body
+                entity.remove<Box2d>()
+                world.destroyBody(body)
+            }
             engine.removeEntity(entity)
         }
         toRemove.clear()
