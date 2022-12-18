@@ -11,10 +11,13 @@ class Flashlight: Component, Pool.Poolable {
     lateinit var light: Light
     var offset = 1f
     val direction = Vector2.X.cpy()
+    var directionOffset = 0f
     var on = true
     override fun reset() {
+        light.remove(true)
         offset = 1f
         direction.set(Vector2.X)
+        directionOffset = 0f
         on = true
     }
 
