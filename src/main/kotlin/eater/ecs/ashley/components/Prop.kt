@@ -6,8 +6,12 @@ import com.badlogic.gdx.math.MathUtils
 abstract class PropName(val name: String)
 
 sealed class CoolProp(val propName: PropName) {
-    class FloatProperty(name: PropName, var current: Float = 100f, val min: Float = 0f, val max: Float = 100f): CoolProp(name) {
-            val normalizedValue: Float
+    class FloatProperty(name: PropName, current: Float = 100f, val min: Float = 0f, val max: Float = 100f): CoolProp(name) {
+        var current = current
+            set(value) {
+                field = MathUtils.clamp(value, min, max)
+            }
+        val normalizedValue: Float
                 get() = MathUtils.norm(min, max, MathUtils.clamp(current, 0f, max))
     }
 }
