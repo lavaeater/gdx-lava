@@ -25,6 +25,23 @@ import space.earlygrey.shapedrawer.ShapeDrawer
 
 class MusicVisualizerScreen(game: MainGame) : BasicScreen(game) {
 
+    init {
+        commandMap = command("MusicVisualizer") {
+            setUp(Input.Keys.SPACE, "Toggle signalplayer") {
+                if (signalConductor.notPlaying)
+                    signalConductor.play()
+                else
+                    signalConductor.stop()
+            }
+            setUp(Input.Keys.RIGHT, "Intensity UP") {
+                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity + 0.1f, 0f, 1f)
+            }
+            setUp(Input.Keys.LEFT, "Intensity DOWN") {
+                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity - 0.1f, 0f, 1f)
+            }
+        }
+    }
+
     private val sampleBaseDir = "projects/games/music-samples-explorer"
 
     override val viewport: Viewport = ExtendViewport(400f, 600f)
@@ -134,24 +151,6 @@ class MusicVisualizerScreen(game: MainGame) : BasicScreen(game) {
 
     private val timePiece by lazy { GdxAI.getTimepiece() }
 
-    private fun setUpCommands() {
-        commandMap = command("MusicVisualizer") {
-            setUp(Input.Keys.SPACE, "Toggle signalplayer") {
-                if (signalConductor.notPlaying)
-                    signalConductor.play()
-                else
-                    signalConductor.stop()
-            }
-
-            commandMap.setUp(Input.Keys.RIGHT, "Intensity UP") {
-                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity + 0.1f, 0f, 1f)
-            }
-            commandMap.setUp(Input.Keys.LEFT, "Intensity DOWN") {
-                signalConductor.baseIntensity = clamp(signalConductor.baseIntensity - 0.1f, 0f, 1f)
-            }
-        }
-    }
-
     override fun show() {
         Scene2DSkin.defaultSkin = Skin(Gdx.files.internal("ui/uiskin.json"))
         super.show()
@@ -160,7 +159,6 @@ class MusicVisualizerScreen(game: MainGame) : BasicScreen(game) {
             stage.dispose()
         }
         stage = getStage()
-        setUpCommands()
     }
 
     override fun render(delta: Float) {
