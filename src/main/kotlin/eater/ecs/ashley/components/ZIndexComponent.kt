@@ -5,18 +5,18 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class IndexComponent: Component, Pool.Poolable {
+class ZIndexComponent: Component, Pool.Poolable {
     var index = 0
     override fun reset() {
         index = 0
     }
 
     companion object {
-        val mapper = mapperFor<IndexComponent>()
+        val mapper = mapperFor<ZIndexComponent>()
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
-        fun get(entity: Entity): IndexComponent {
+        fun get(entity: Entity): ZIndexComponent {
             return mapper.get(entity)
         }
     }
