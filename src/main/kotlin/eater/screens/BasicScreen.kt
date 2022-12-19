@@ -13,8 +13,9 @@ import eater.input.CommandMap
 import eater.input.KeyPress
 import ktx.app.KtxInputAdapter
 import ktx.app.KtxScreen
+import ktx.assets.disposeSafely
 
-abstract class BasicScreen(val mainGame: MainGame) : KtxScreen, KtxInputAdapter {
+abstract class BasicScreen(val mainGame: MainGame, private val clearColor: Color = Color(0f, 0.2f, .4f, 1f)) : KtxScreen, KtxInputAdapter {
 
     protected lateinit var commandMap: CommandMap
     open val camera: OrthographicCamera by lazy { inject() }
@@ -34,7 +35,6 @@ abstract class BasicScreen(val mainGame: MainGame) : KtxScreen, KtxInputAdapter 
         Gdx.input.inputProcessor = null
     }
 
-    val clearColor by lazy { Color(0f, 0.2f, .4f, 1f) }
     override fun render(delta: Float) {
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -48,5 +48,9 @@ abstract class BasicScreen(val mainGame: MainGame) : KtxScreen, KtxInputAdapter 
 
     override fun keyUp(keycode: Int): Boolean {
         return commandMap.execute(keycode, KeyPress.Up)
+    }
+
+    override fun dispose() {
+        batch.disposeSafely()
     }
 }

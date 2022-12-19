@@ -17,4 +17,8 @@ abstract class LavaHud(
         stage.act(delta)
         stage.draw()
     }
+
+    open fun resize(width: Int, height: Int) {
+        hudViewPort.update(width, height)
+    }
 }
