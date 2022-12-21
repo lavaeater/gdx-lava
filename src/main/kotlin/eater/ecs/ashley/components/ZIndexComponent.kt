@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class ZIndexComponent: Component, Pool.Poolable {
+class ZIndexComponent(): Component, Pool.Poolable {
     var index = 0
     override fun reset() {
         index = 0

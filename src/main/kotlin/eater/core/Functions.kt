@@ -28,11 +28,12 @@ fun engine() : Engine {
 }
 
 fun String.toColor(): Color {
-    val parts = this.chunked(2)
-    val r = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[0]}").toFloat())
-    val g = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[1]}").toFloat())
-    val b = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[2]}").toFloat())
-    return Color(r, g, b, 1f)
+    return Color.BLUE
+//    val parts = this.chunked(2)
+//    val r = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[0]}").toFloat())
+//    val g = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[1]}").toFloat())
+//    val b = MathUtils.norm(0f, 255f, Integer.decode("0x${parts[2]}").toFloat())
+//    return Color(r, g, b, 1f)
 }
 
 fun Rectangle.wholePoints():MutableList<Vector2> {
