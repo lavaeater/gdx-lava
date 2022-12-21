@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class BodyControl: Component, Pool.Poolable {
+class BodyControl @JvmOverloads constructor() : Component, Pool.Poolable {
     val directionVector = vec2()
     val aimDirection = vec2()
     var maxForce = 100f

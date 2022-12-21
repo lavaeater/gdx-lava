@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class PropsAndStuff: Component, Pool.Poolable {
+class PropsAndStuff @JvmOverloads constructor() : Component, Pool.Poolable {
     val props = mutableListOf<Prop>()
 
     fun getHealth(): Prop.FloatProp.Health {

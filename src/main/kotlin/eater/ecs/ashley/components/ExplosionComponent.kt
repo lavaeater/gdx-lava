@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool.Poolable
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class ExplosionComponent: Component, Poolable {
+class ExplosionComponent @JvmOverloads constructor() : Component, Poolable {
     var explosionTime = 0.1f
     val explosionBlorbs = mutableListOf<ExplosionBlorb>().apply {
         addAll(getBlorbs())

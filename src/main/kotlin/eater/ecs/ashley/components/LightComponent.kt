@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class LightComponent: Component, Pool.Poolable {
+class LightComponent @JvmOverloads constructor() : Component, Pool.Poolable {
     lateinit var light: Light
     var color = Color(1f, 1f, 0f, 0.5f)
     var radius = 15f

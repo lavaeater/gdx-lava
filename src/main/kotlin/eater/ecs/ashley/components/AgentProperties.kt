@@ -9,8 +9,8 @@ import ktx.ashley.mapperFor
 import ktx.math.vec2
 import kotlin.reflect.KMutableProperty
 
-class AgentProperties(val baseProperties: AgentBaseProperties) : Component, Pool.Poolable {
-    constructor() : this(AgentBaseProperties.reusableBaseProperties)
+class AgentProperties(private val baseProperties: AgentBaseProperties) : Component, Pool.Poolable {
+    @JvmOverloads constructor()  : this(AgentBaseProperties.reusableBaseProperties)
 
     var meleeDamageRange = baseProperties.meleeDamageRange
     var attackSpeed = baseProperties.attackSpeed

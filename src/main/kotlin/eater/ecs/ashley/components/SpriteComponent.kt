@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class SpriteComponent: Component, Pool.Poolable {
+class SpriteComponent @JvmOverloads constructor() : Component, Pool.Poolable {
 
     var sprite = Sprite()
     var zIndex = 0

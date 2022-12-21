@@ -11,7 +11,7 @@ import eater.core.world
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class LDtkMap: Component, Pool.Poolable {
+class LDtkMap @JvmOverloads constructor() : Component, Pool.Poolable {
     lateinit var mapBounds: Rectangle
     val mapOrigin = vec2()
     var mapScale = 1f

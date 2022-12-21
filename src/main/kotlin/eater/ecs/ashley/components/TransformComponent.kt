@@ -10,7 +10,7 @@ import ktx.ashley.mapperFor
 import ktx.math.vec2
 
 
-class TransformComponent : Component, Pool.Poolable {
+class TransformComponent @JvmOverloads constructor() : Component, Pool.Poolable {
     var feelsGravity = false
     val position: Vector2 = vec2()
     var height = 4f

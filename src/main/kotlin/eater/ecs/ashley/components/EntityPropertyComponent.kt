@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class EntityPropertyComponent: Component, Pool.Poolable {
+class EntityPropertyComponent @JvmOverloads constructor() : Component, Pool.Poolable {
     val props = mutableMapOf<PropertyName, SimpleProperty>()
 
     fun getProp(propertyName: PropertyName): SimpleProperty {

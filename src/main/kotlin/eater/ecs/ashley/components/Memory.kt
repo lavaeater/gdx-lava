@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 import kotlin.reflect.KType
 
-class Memory : Component, Pool.Poolable {
+class Memory @JvmOverloads constructor() : Component, Pool.Poolable {
     val seenEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()
     val closeEntities = mutableMapOf<KType, MutableMap<Entity, Float>>()
     val generalMemory = mutableMapOf<GeneralMemory, Float>()
@@ -23,27 +23,27 @@ class Memory : Component, Pool.Poolable {
 
     fun updateGeneralMemories(deltaTime: Float) {
         val generalToRemove = mutableListOf<GeneralMemory>()
-        for((key, value) in generalMemory) {
+        for ((key, value) in generalMemory) {
             generalMemory[key] = value - deltaTime
-            if(generalMemory[key]!! <= 0f) {
+            if (generalMemory[key]!! <= 0f) {
                 generalToRemove.add(key)
             }
         }
-        for(t in generalToRemove) {
+        for (t in generalToRemove) {
             generalMemory.remove(t)
             lastUpdateTime = timePiece.time
         }
     }
 
-    val hasGeneralMemoryChanged : Boolean
+    val hasGeneralMemoryChanged: Boolean
         get() {
-        return if(lastUpdateTime > lastCheckTime) {
-            lastCheckTime = timePiece.time
-            true
-        } else {
-            false
+            return if (lastUpdateTime > lastCheckTime) {
+                lastCheckTime = timePiece.time
+                true
+            } else {
+                false
+            }
         }
-    }
 
 
     val memoryLifeSpan = 5f

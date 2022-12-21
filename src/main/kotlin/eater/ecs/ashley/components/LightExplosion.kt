@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.utils.Pool
 import ktx.ashley.mapperFor
 
-class LightExplosion: Component, Pool.Poolable {
+class LightExplosion @JvmOverloads constructor() : Component, Pool.Poolable {
     var explosionTime = 0.1f
     var timeLeft = explosionTime
     override fun reset() {

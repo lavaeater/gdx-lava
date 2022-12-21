@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Pool.Poolable
 import ktx.ashley.mapperFor
 
-class Box2d : Component, Poolable {
+class Box2d @JvmOverloads constructor() : Component, Poolable {
     private var _body: Body? = null
     var body: Body
         get() = _body!!
