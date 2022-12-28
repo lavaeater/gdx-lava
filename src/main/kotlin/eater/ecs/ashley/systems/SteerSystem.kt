@@ -2,7 +2,7 @@ package eater.ecs.ashley.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
-import eater.ai.steering.box2d.Box2dSteerable
+import eater.ecs.ashley.components.Box2dSteerable
 import eater.ecs.ashley.components.Remove
 import ktx.ashley.allOf
 import ktx.ashley.exclude
