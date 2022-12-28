@@ -7,7 +7,7 @@ import eater.ecs.ashley.components.Remove
 import ktx.ashley.allOf
 import ktx.ashley.exclude
 
-class AshleyAiSystem : IteratingSystem(allOf(AiComponent::class).exclude(Remove::class).get()) {
+class UtilityAiSystem : IteratingSystem(allOf(AiComponent::class).exclude(Remove::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val ai = AiComponent.get(entity)
         if(ai.topAction(entity)?.act(entity, deltaTime) == true) {

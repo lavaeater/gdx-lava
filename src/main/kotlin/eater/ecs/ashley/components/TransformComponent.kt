@@ -25,6 +25,14 @@ class TransformComponent : Component, Pool.Poolable {
             return direction.angleDeg()
         }
 
+    var angleRadians: Float
+        get() {
+            return direction.angleRad()
+        }
+        set(value) {
+            direction.setAngleRad(value)
+        }
+
     fun update(body: Body) {
         position.set(body.position)
         angleDegrees = body.angle * MathUtils.radiansToDegrees + 90f
