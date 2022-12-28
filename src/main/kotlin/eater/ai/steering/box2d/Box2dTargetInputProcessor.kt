@@ -15,9 +15,9 @@
  */
 package eater.ai.steering.box2d
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
+import eater.ecs.ashley.components.Box2dSteerable
 
 /** An [InputProcessor] that allows you to manually move a [SteeringActor].
  *

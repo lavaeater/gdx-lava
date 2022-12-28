@@ -6,6 +6,7 @@ import eater.physics.addComponent
 import ktx.ashley.allOf
 import ktx.ashley.remove
 import eater.ecs.ashley.components.Remove
+import eater.ecs.ashley.components.RemoveAfter
 
 class RemoveAfterSystem: IteratingSystem(allOf(RemoveAfter::class).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {

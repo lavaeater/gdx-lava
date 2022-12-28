@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package eater.ai.steering.box2d
+package eater.ecs.ashley.components
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
@@ -21,11 +21,12 @@ import com.badlogic.gdx.ai.steer.Steerable
 import com.badlogic.gdx.ai.steer.SteerableAdapter
 import com.badlogic.gdx.ai.steer.SteeringAcceleration
 import com.badlogic.gdx.ai.steer.SteeringBehavior
-import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering
 import com.badlogic.gdx.ai.utils.Location
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.utils.Pool
+import eater.ai.steering.box2d.Box2dLocation
+import eater.ai.steering.box2d.Box2dSteeringUtils
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
@@ -130,7 +131,7 @@ open class Box2dSteerable(
 
             /*
 			 * Here you might want to add a motor control layer filtering steering accelerations.
-			 * 
+			 *
 			 * For instance, a car in a driving game has physical constraints on its movement: it cannot turn while stationary; the
 			 * faster it moves, the slower it can turn (without going into a skid); it can brake much more quickly than it can
 			 * accelerate; and it only moves in the direction it is facing (ignoring power slides).

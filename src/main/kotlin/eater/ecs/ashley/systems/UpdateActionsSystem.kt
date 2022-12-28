@@ -2,7 +2,7 @@ package eater.ecs.ashley.systems
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IntervalIteratingSystem
-import eater.ai.ashley.AiComponent
+import eater.ecs.ashley.components.AiComponent
 import eater.ecs.ashley.components.Remove
 import ktx.ashley.allOf
 import ktx.ashley.exclude
