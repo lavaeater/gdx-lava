@@ -9,13 +9,13 @@ import com.badlogic.gdx.physics.box2d.World
 import eater.injection.InjectionContext.Companion.inject
 import ktx.math.vec2
 
-fun<T> selectedItemListOf(callBack: (T)-> Unit = {}, vararg items: T): SelectedItemList<T> {
-    val list = SelectedItemList(callBack, items.toList())
+fun<T> selectedItemListOf(selectedItemUpdated: (Int, T)-> Unit = {_,_ ->}, vararg items: T): SelectedItemList<T> {
+    val list = SelectedItemList(selectedItemUpdated, items.toList())
     return list
 }
 
 fun<T> selectedItemListOf(vararg items: T): SelectedItemList<T> {
-    val list = SelectedItemList({}, items.toList())
+    val list = SelectedItemList({ _, _ ->  }, items.toList())
     return list
 }
 

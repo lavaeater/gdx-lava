@@ -1,12 +1,6 @@
 package eater.core
 
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family
-
-
-
-
-class SelectedItemList<T>(val listUpdatedCallback: (T)-> Unit, items: List<T>) : ArrayList<T>() {
+class SelectedItemList<T>(val listUpdatedCallback: (Int, T)-> Unit, items: List<T>) : ArrayList<T>() {
     init {
         this.addAll(items)
     }
@@ -28,6 +22,19 @@ class SelectedItemList<T>(val listUpdatedCallback: (T)-> Unit, items: List<T>) :
         return newList
     }
 
+    fun getNItemsBeforeAndAfterIndex(n: Int, index: Int): List<T> {
+        val range = ((index-n)..(index+n)).map { mapIndex(it) }
+        return range.map { get(it) }
+    }
+
+    private fun mapIndex(index: Int):Int {
+        return if(index < 0)
+            lastIndex + index + 1
+        else if(index > lastIndex)
+            index - size
+        else index
+    }
+
     private var selectedIndex: Int = 0
         private set(value) {
             field = when {
@@ -35,16 +42,19 @@ class SelectedItemList<T>(val listUpdatedCallback: (T)-> Unit, items: List<T>) :
                 value > this.lastIndex -> 0
                 else -> value
             }
+            listUpdatedCallback(value, selectedItem)
         }
-    val selectedItem get () = this[selectedIndex]
+    var selectedItem get () = this[selectedIndex]
+        set(value) {
+            val index = indexOf(value)
+            selectedIndex = index
+        }
     fun nextItem() : T {
         selectedIndex++
-        listUpdatedCallback(selectedItem)
         return selectedItem
     }
     fun previousItem() : T {
         selectedIndex--
-        listUpdatedCallback(selectedItem)
         return selectedItem
     }
 }
