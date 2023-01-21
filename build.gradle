@@ -15,7 +15,6 @@ dependencies {
 	api "io.github.libktx:ktx-graphics:$ktxVersion"
 	api "io.github.libktx:ktx-i18n:$ktxVersion"
 	api "io.github.libktx:ktx-inject:$ktxVersion"
-	api "io.github.libktx:ktx-box2d:$ktxVersion"
 	api "io.github.libktx:ktx-json:$ktxVersion"
 	api "io.github.libktx:ktx-log:$ktxVersion"
 	api "io.github.libktx:ktx-math:$ktxVersion"
@@ -26,6 +25,5 @@ dependencies {
 	api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-  implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-	api "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
+  	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 }
