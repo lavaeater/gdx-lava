@@ -1,15 +1,28 @@
 package eater.ecs.ashley.components.character
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.Pool.Poolable
+import eater.input.CardinalDirection
 import ktx.math.plus
 import ktx.math.times
 import ktx.math.vec2
-import eater.input.CardinalDirection
+import ktx.ashley.mapperFor
 
-class Character: Component, Poolable {
+class Character : Component, Poolable {
+
+    companion object {
+        val mapper = mapperFor<Character>()
+        fun has(entity: Entity): Boolean {
+            return mapper.has(entity)
+        }
+
+        fun get(entity: Entity): Character {
+            return mapper.get(entity)
+        }
+    }
+
     var width: Float = 32f
     var height: Float = 32f
     var scale: Float = 1.0f
@@ -17,8 +30,9 @@ class Character: Component, Poolable {
     val worldPosition get() = direction.worldPosition
     val forward = direction.forward
 
-    var angleDegrees get() = direction.angleDegrees
-    set(value) {
+    var angleDegrees
+        get() = direction.angleDegrees
+        set(value) {
             direction.angleDegrees = value
         }
     val cardinalDirection get() = direction.cardinalDirection
@@ -57,7 +71,7 @@ class Character: Component, Poolable {
     override fun reset() {
         worldPosition.setZero()
         angleDegrees = 0f
-        aimVector.set(1f,0f)
+        aimVector.set(1f, 0f)
         width = 32f
         height = 32f
         scale = 1.0f
