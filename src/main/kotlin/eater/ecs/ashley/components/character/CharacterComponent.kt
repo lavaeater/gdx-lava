@@ -10,15 +10,15 @@ import ktx.math.times
 import ktx.math.vec2
 import ktx.ashley.mapperFor
 
-class Character : Component, Poolable {
+class CharacterComponent : Component, Poolable {
 
     companion object {
-        val mapper = mapperFor<Character>()
+        val mapper = mapperFor<CharacterComponent>()
         fun has(entity: Entity): Boolean {
             return mapper.has(entity)
         }
 
-        fun get(entity: Entity): Character {
+        fun get(entity: Entity): CharacterComponent {
             return mapper.get(entity)
         }
     }
