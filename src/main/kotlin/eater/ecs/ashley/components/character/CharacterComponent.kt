@@ -64,7 +64,7 @@ class CharacterComponent : Component, Poolable {
 
     val worldAnchors
         get() = anchors[cardinalDirection]!!.map {
-            it.key to worldPosition + vec2().set(it.value.x, it.value.y * 0.5f).times(32f)
+            it.key to worldPosition + vec2().set(it.value.x, it.value.y * 0.5f).times(width * scale)
                 .setAngleDeg(direction.cardinalAngle - it.value.angleDeg())
         }.toMap()
 
