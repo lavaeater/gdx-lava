@@ -41,7 +41,9 @@ class CharacterComponent : Component, Poolable {
         CardinalDirection.East to
                 mapOf(
                     "rightshoulder" to vec2(-0.25f, 0.5f),
-                    "leftshoulder" to vec2(0f, -0.25f)
+                    "leftshoulder" to vec2(0f, -0.25f),
+                    "rightsf" to vec2(0f, 0.5f),
+                    "leftsf" to vec2(0.25f, -0.25f)
                 ),
         CardinalDirection.South to
                 mapOf(
@@ -63,9 +65,9 @@ class CharacterComponent : Component, Poolable {
     val aimVector: Vector2 = Vector2.X.cpy()
 
     val worldAnchors
-        get() = anchors[cardinalDirection]!!.map {
+        get() = anchors[CardinalDirection.East]!!.map {
             it.key to worldPosition + vec2().set(it.value.x, it.value.y * 0.5f).times(width * scale)
-                .setAngleDeg(direction.cardinalAngle - it.value.angleDeg())
+                .setAngleDeg(direction.angleDegrees - it.value.angleDeg())
         }.toMap()
 
     override fun reset() {
