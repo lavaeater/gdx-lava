@@ -11,7 +11,7 @@ abstract class LavaHud(
     aspectRatio: Float = 16f / 9f) {
     private val hudHeight = hudWidth * aspectRatio
     val camera = OrthographicCamera()
-    private val hudViewPort = ExtendViewport(hudWidth, hudHeight, camera)
+    protected val hudViewPort = ExtendViewport(hudWidth, hudHeight, camera)
     abstract val stage: Stage
     open fun render(delta: Float) {
         stage.act(delta)
