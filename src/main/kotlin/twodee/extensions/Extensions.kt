@@ -1,7 +1,10 @@
 package twodee.extensions
 
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
@@ -14,6 +17,7 @@ import kotlin.contracts.contract
 import kotlin.experimental.and
 import kotlin.experimental.inv
 import kotlin.experimental.or
+
 
 fun TextureRegion.draw(batch: PolygonSpriteBatch, position: Vector2, rotation: Float, scale: Float) {
     batch.draw(
@@ -28,6 +32,49 @@ fun TextureRegion.draw(batch: PolygonSpriteBatch, position: Vector2, rotation: F
         scale,
         rotation
     )
+}
+
+fun traceRectangle(sprite: Sprite): Rectangle {
+    val pixmap = getVisiblePixmap(sprite)
+    val width = pixmap.width
+    val height = pixmap.height
+
+    // The rectangle is defined by (minX, minY) and (maxX, maxY)
+    // The bottom leftmost pixel with a color is at (minX, minY)
+    var minX = width
+    var minY = height
+    var maxX = 0
+    var maxY = 0
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            val color = pixmap.getPixel(x, y)
+            if (color and 0x000000ff != 0) { // check if alpha is not 0
+                minX = Math.min(minX, x)
+                minY = Math.min(minY, y)
+                maxX = Math.max(maxX, x)
+                maxY = Math.max(maxY, y)
+            }
+        }
+    }
+    val rectangle = Rectangle(sprite.boundingRectangle)
+    rectangle.setSize(maxX.toFloat() - minX, maxY.toFloat() - minY)
+    rectangle.setX(minX.toFloat())
+    rectangle.setY(minY.toFloat())
+    pixmap.dispose()
+    return rectangle
+}
+
+private fun getVisiblePixmap(sprite: Sprite): Pixmap {
+    val texture = sprite.texture
+    val data = texture.textureData
+    if (!data.isPrepared) data.prepare()
+
+    //this pixmap may be a texture atlas, so adjust it to only what the sprite sees
+    val fullPixmap = data.consumePixmap()
+    val visible = Pixmap(sprite.regionWidth, sprite.regionHeight, sprite.texture.textureData.format)
+    visible.drawPixmap(fullPixmap, 0, 0, sprite.regionX, sprite.regionY, sprite.regionWidth, sprite.regionHeight)
+    fullPixmap.dispose()
+    return visible
 }
 
 
