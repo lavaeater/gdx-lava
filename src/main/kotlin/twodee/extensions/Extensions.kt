@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node
 import ktx.actors.txt
 import ktx.scene2d.*
 import kotlin.contracts.ExperimentalContracts
@@ -89,6 +88,20 @@ inline fun <S> KWidget<S>.boundLabel(
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
     return actor(BoundLabel(textFunction, skin), init)
 }
+
+@Scene2dDsl
+@OptIn(ExperimentalContracts::class)
+inline fun <S> KWidget<S>.boundTextField(
+    noinline textFunction: () -> String,
+    style: String = defaultStyle,
+    skin: Skin = Scene2DSkin.defaultSkin,
+    init: (@Scene2dDsl TextField).(S) -> Unit = {}
+): TextField {
+    contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
+    return actor(TextField(text, skin, style), init)
+}
+
+
 
 
 open class BoundLabel(private val textFunction: () -> String, skin: Skin = Scene2DSkin.defaultSkin) :
