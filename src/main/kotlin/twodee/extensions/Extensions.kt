@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node
+import ktx.actors.onChange
 import ktx.actors.txt
 import ktx.scene2d.*
 import kotlin.contracts.ExperimentalContracts
@@ -77,7 +78,6 @@ private fun getVisiblePixmap(sprite: Sprite): Pixmap {
 }
 
 
-
 @Scene2dDsl
 @OptIn(ExperimentalContracts::class)
 inline fun <S> KWidget<S>.boundLabel(
@@ -93,16 +93,26 @@ inline fun <S> KWidget<S>.boundLabel(
 @OptIn(ExperimentalContracts::class)
 inline fun <S> KWidget<S>.boundTextField(
     noinline textFunction: () -> String,
+    noinline textUpdated: (String) -> Unit,
     style: String = defaultStyle,
     skin: Skin = Scene2DSkin.defaultSkin,
     init: (@Scene2dDsl TextField).(S) -> Unit = {}
 ): TextField {
     contract { callsInPlace(init, InvocationKind.EXACTLY_ONCE) }
-    return actor(TextField(text, skin, style), init)
+    return actor(BoundTextField(textFunction, skin)
+        .apply {
+            onChange { textUpdated(text) }
+        }, init
+    )
 }
 
-
-
+open class BoundTextField(private val textFunction: () -> String, skin: Skin = Scene2DSkin.defaultSkin) :
+    TextField(textFunction(), skin) {
+    override fun act(delta: Float) {
+        text = textFunction()
+        super.act(delta)
+    }
+}
 
 open class BoundLabel(private val textFunction: () -> String, skin: Skin = Scene2DSkin.defaultSkin) :
     Label(textFunction(), skin) {
