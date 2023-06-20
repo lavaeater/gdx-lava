@@ -16,6 +16,7 @@ class TransformComponent : Component, Pool.Poolable {
     var height = 4f
     var verticalSpeed = 0f
     val direction = vec2(1f, 0f) //Unit vector pointing towards Y, for no reason of course
+    var rotationOffset = 90f
 
     var angleDegrees: Float
         set(value) {
@@ -35,7 +36,7 @@ class TransformComponent : Component, Pool.Poolable {
 
     fun update(body: Body) {
         position.set(body.position)
-        angleDegrees = body.angle * MathUtils.radiansToDegrees + 90f
+        angleDegrees = body.angle * MathUtils.radiansToDegrees + rotationOffset
     }
 
     override fun reset() {
@@ -43,6 +44,7 @@ class TransformComponent : Component, Pool.Poolable {
         angleDegrees = 0f
         height = 4f
         verticalSpeed = 0f
+        rotationOffset = 90f
     }
 
     companion object {

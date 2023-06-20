@@ -15,7 +15,9 @@ import ktx.app.KtxInputAdapter
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 
-abstract class BasicScreen(val mainGame: MainGame, private val clearColor: Color = Color(0f, 0.2f, .4f, 1f)) : KtxScreen, KtxInputAdapter {
+abstract class BasicScreen(
+    val mainGame: MainGame,
+    private val clearColor: Color = Color(0f, 0.2f, .4f, 1f)) : KtxScreen, KtxInputAdapter {
 
     protected lateinit var commandMap: CommandMap
     open val camera: OrthographicCamera by lazy { inject() }

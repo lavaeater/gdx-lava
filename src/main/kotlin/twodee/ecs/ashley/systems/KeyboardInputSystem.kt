@@ -14,7 +14,10 @@ import ktx.ashley.exclude
 import ktx.math.vec2
 import ktx.math.vec3
 
-class KeyboardInputSystem(private val camera: OrthographicCamera, private val invertX: Boolean, private val invertY: Boolean) :
+class KeyboardInputSystem(
+    private val camera: OrthographicCamera,
+    private val invertX: Boolean,
+    private val invertY: Boolean) :
     IteratingSystem(
         allOf(
             BodyControl::class,
