@@ -16,8 +16,7 @@ import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 
 abstract class BasicScreen(
-    val mainGame: MainGame,
-    private val clearColor: Color = Color(0f, 0.2f, .4f, 1f)) : KtxScreen, KtxInputAdapter {
+    val mainGame: MainGame) : KtxScreen, KtxInputAdapter {
 
     protected lateinit var commandMap: CommandMap
     open val camera: OrthographicCamera by lazy { inject() }
@@ -35,13 +34,6 @@ abstract class BasicScreen(
 
     override fun hide() {
         Gdx.input.inputProcessor = null
-    }
-
-    override fun render(delta: Float) {
-        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        camera.update(true)
-        batch.projectionMatrix = camera.combined
     }
 
     override fun keyDown(keycode: Int): Boolean {
