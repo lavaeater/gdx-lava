@@ -13,6 +13,7 @@ import ktx.math.vec2
 
 class LDtkMap() : Component, Pool.Poolable {
     lateinit var mapBounds: Rectangle
+    var gridSize = 8f
     val mapOrigin = vec2()
     var mapRotation = 0f
     var mapScale = 1f
@@ -25,6 +26,7 @@ class LDtkMap() : Component, Pool.Poolable {
         for(body in mapBodies) {
             world().destroyBody(body)
         }
+        gridSize = 8f
         mapRotation = 0f
         mapBodies.clear()
         points.clear()
