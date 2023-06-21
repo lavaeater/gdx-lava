@@ -23,7 +23,6 @@ open class CameraFollowSystem(
 
     protected val cameraPosition = vec2()
 
-
     override fun processEntity(entity: Entity, deltaTime: Float) {
 
         val position = TransformComponent.get(entity).position
@@ -34,8 +33,6 @@ open class CameraFollowSystem(
         )
 
         camera.update(true)
-
-
 
     }
 }
