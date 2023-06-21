@@ -11,9 +11,10 @@ import twodee.core.world
 import ktx.ashley.mapperFor
 import ktx.math.vec2
 
-class LDtkMap: Component, Pool.Poolable {
+class LDtkMap() : Component, Pool.Poolable {
     lateinit var mapBounds: Rectangle
     val mapOrigin = vec2()
+    var mapRotation = 0f
     var mapScale = 1f
     lateinit var mapTextureRegion: TextureRegion
     lateinit var mapTopLayerRegion: TextureRegion
@@ -24,6 +25,7 @@ class LDtkMap: Component, Pool.Poolable {
         for(body in mapBodies) {
             world().destroyBody(body)
         }
+        mapRotation = 0f
         mapBodies.clear()
         points.clear()
         mapOrigin.setZero()
@@ -40,5 +42,9 @@ class LDtkMap: Component, Pool.Poolable {
         fun get(entity: Entity): LDtkMap {
             return mapper.get(entity)
         }
+    }
+
+    init {
+        reset()
     }
 }
