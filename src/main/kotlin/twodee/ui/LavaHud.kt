@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 
 abstract class LavaHud(
     val batch: PolygonSpriteBatch,
-    hudWidth: Float = 600f,
+    hudWidth: Float = 200f,
     aspectRatio: Float = 16f / 9f) {
     private val hudHeight = hudWidth * aspectRatio
     val camera = OrthographicCamera()
