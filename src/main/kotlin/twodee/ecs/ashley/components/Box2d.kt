@@ -14,8 +14,11 @@ class Box2d : Component, Poolable {
             _body = value
         }
 
+    val bodies = mutableMapOf<String, Body>()
+
     override fun reset() {
         _body = null
+        bodies.clear()
     }
 
     companion object {
