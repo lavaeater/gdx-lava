@@ -14,7 +14,7 @@ class Box2d : Component, Poolable {
             _body = value
         }
 
-    val bodies = mutableMapOf<String, Body>()
+    val bodies = mutableMapOf<BodyPart, Body>()
 
     override fun reset() {
         _body = null
