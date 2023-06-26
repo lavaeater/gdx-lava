@@ -13,6 +13,7 @@ import twodee.input.KeyPress
 import ktx.app.KtxInputAdapter
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
+import ktx.graphics.use
 
 abstract class BasicScreen(
     val mainGame: MainGame,
@@ -49,7 +50,12 @@ abstract class BasicScreen(
 
     override fun render(delta: Float) {
         clearScreenUpdateCamera(delta)
+        batch.use {
+            renderBatch(delta)
+        }
     }
+
+    abstract fun renderBatch(delta: Float)
 
     open fun clearScreenUpdateCamera(delta:Float) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
