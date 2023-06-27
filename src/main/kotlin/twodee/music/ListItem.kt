@@ -1,13 +1,9 @@
 package twodee.music
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 sealed class ListItem {
     abstract val name: String
     abstract val path: String
-    @Serializable
-    class SoundFile(override val name: String, override val path: String): ListItem()
+    data class SoundFile(override val name: String, override val path: String): ListItem()
     class Directory(
         override val name: String,
         override val path: String,

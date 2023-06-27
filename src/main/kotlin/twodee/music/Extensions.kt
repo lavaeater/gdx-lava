@@ -2,30 +2,38 @@ package twodee.music
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import ktx.assets.toExternalFile
+import ktx.assets.toInternalFile
 import kotlin.math.pow
 
 fun <K, V> Map<K, V>.reversed() = HashMap<V, K>().also { newMap ->
     entries.forEach { newMap[it.value] = it.key }
 }
 
-fun loadSampler(name: String, instrument: String, baseDir:String): Sampler {
-    if(!InstrumentsCache.instruments.containsKey(instrument)) {
-        val json = Gdx.files.local("instruments/$instrument").readString()
-        val instruments = Json.decodeFromString<List<ListItem.SoundFile>>(json)
+fun loadSampler(name: String, instrument: String, baseDir: String): Sampler {
+    if (!InstrumentsCache.instruments.containsKey(instrument)) {
+        val lines = "instruments/$instrument".toInternalFile().readString().lines()
+
+        val instruments = lines.map {
+            val instr = it.split(",")
+            ListItem.SoundFile(instr.first(), instr.last())
+        }
         InstrumentsCache.instruments[instrument] = instruments
     }
     val instruments = InstrumentsCache.instruments[instrument]!!
     val soundFile = instruments.first { it.name == name }
-    return Sampler(Gdx.audio.newSound("$baseDir/${soundFile.path}".toExternalFile()))
+    return Sampler(Gdx.audio.newSound("$baseDir/${soundFile.path}".toInternalFile()))
 }
 
-fun generateBeat(midiNoteSpan: IntRange, top: Int, bottom: Int, shift: Int = 0, strengthRange: IntRange = (3..8)): MutableMap<Int, Note> {
+fun generateBeat(
+    midiNoteSpan: IntRange,
+    top: Int,
+    bottom: Int,
+    shift: Int = 0,
+    strengthRange: IntRange = (3..8)
+): MutableMap<Int, Note> {
     val tempo = top.toFloat() / bottom.toFloat() * 16f
     val distance = MathUtils.floor(tempo)
-    return (0 until 16 step distance).map { if(it + shift > 15) 0 + shift else if(it + shift < 0) 15 + shift else it + shift }
+    return (0 until 16 step distance).map { if (it + shift > 15) 0 + shift else if (it + shift < 0) 15 + shift else it + shift }
         .associateWith { Note(midiNoteSpan.random(), strengthRange.random().toFloat() / 10f) }
         .toMutableMap()
 }
@@ -46,13 +54,13 @@ fun Int.toPitch(): Float {
      *
      */
     return if (this < 0) {
-        if(this < minPitch)
+        if (this < minPitch)
             0.5f
         else
             this.fromMidiToPitch()
-            //1f - (1f / (maxPitch * 2 / this.absoluteValue.toFloat()))
-    } else if(this > 0) {
-        if(this > maxPitch)
+        //1f - (1f / (maxPitch * 2 / this.absoluteValue.toFloat()))
+    } else if (this > 0) {
+        if (this > maxPitch)
             2f
         else {
             this.fromMidiToPitch()
@@ -68,7 +76,7 @@ fun Int.fromMidiToPitch(): Float {
      * The midi reference note is apparently 69, not 60...
      */
 
-    val f = 2f.pow(this.toFloat()/12f) //This should give us a factor, right?
+    val f = 2f.pow(this.toFloat() / 12f) //This should give us a factor, right?
     return f
 }
 

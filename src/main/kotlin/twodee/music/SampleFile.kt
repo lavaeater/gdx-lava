@@ -1,9 +1,5 @@
 package twodee.music
 
-import kotlinx.serialization.Serializable
-
-
-@Serializable
 data class SampleFile(var name: String, var path: String, val excludes: List<String>) {
     private fun extractTags(): List<String> {
         var splitPath = path.split("/").toMutableList()

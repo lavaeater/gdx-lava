@@ -15,11 +15,13 @@ class SignalConductor(
     private var playing = false
     val notPlaying get() = !playing
     fun play() {
-        startTime = currentTime
-        for(instrument in instruments) {
-            instrument.updateSignature(beatsPerMeasure, beatDuration)
+        if(!playing) {
+            startTime = currentTime
+            for (instrument in instruments) {
+                instrument.updateSignature(beatsPerMeasure, beatDuration)
+            }
+            playing = true
         }
-        playing = true
     }
 
     fun stop() {
