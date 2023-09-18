@@ -26,7 +26,7 @@ dependencies {
 	api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-	api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+//	api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
 	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 	api "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
 }
